@@ -152,14 +152,15 @@ describe("Batch Management Service", () => {
       var fileContent = fs.createReadStream(__dirname + "/test_package.zip");
       var httpRequest = new WebResource();
       var serviceClient = new ServiceClient();
-      httpRequest.method = "POST";
+      httpRequest.method = "PUT";
       httpRequest.headers = new HttpHeaders();
       httpRequest.headers.set("x-ms-blob-type", "BlockBlob");
+      httpRequest.headers.set("Content-Length", "10");
       httpRequest.url = result.storageUrl as any;
       httpRequest.body = fileContent;
       httpRequest.streamResponseBody = true;
       var response = await serviceClient.sendRequest(httpRequest);
-      assert.equal(response.status, 405);
+      assert.equal(response.status, 201);
     });
 
     it("should add second application package successfully", async () => {
@@ -471,7 +472,7 @@ describe("Batch Management Service", () => {
       assert.equal(result.name, paas_pool);
     });
 
-    it("should create a iaas pool successfully", async () => {
+    it("should create an iaas pool successfully", async () => {
       var iaas_pool = "test_iaas_pool";
       var parameters = {
         displayName: "test_pool",
@@ -499,10 +500,50 @@ describe("Batch Management Service", () => {
       assert.equal(result.name, iaas_pool);
     });
 
+    it("should create an iaas pool with vm extension successfully", async () => {
+      var iaas_pool = "test_iaas_pool_vmext";
+      var parameters = {
+        displayName: "test_pool_vmext",
+        vmSize: "Standard_A1",
+        deploymentConfiguration: {
+          virtualMachineConfiguration: {
+            imageReference: {
+              publisher: "MicrosoftWindowsServer",
+              offer: "WindowsServer",
+              sku: "2016-Datacenter-smalldisk"
+            },
+            nodeAgentSkuId: "batch.node.windows amd64",
+            extensions: [
+              {
+                name: "batchextension1",
+                type: "SecurityMonitoringForLinux",
+                publisher: "Microsoft.Azure.Security.Monitoring",
+                typeHandlerVersion: "1.0",
+                autoUpgradeMinorVersion: true,
+                settings: {
+                  settingsKey: "settingsValue"
+                }
+              }
+            ],
+            windowsConfiguration: { enableAutomaticUpdates: true }
+          }
+        },
+        scaleSettings: {
+          fixedScale: {
+            targetDedicatedNodes: 0,
+            targetLowPriorityNodes: 0
+          }
+        }
+      };
+      const result = await client.pool.create(groupName, batchAccount, iaas_pool, parameters);
+      assert.exists(result);
+      assert.equal(result.name, iaas_pool);
+    });
+
     it("should list pools successfully", async () => {
       const result = await client.pool.listByBatchAccount(groupName, batchAccount);
       assert.exists(result);
-      assert.equal(result.length, 2);
+      assert.equal(result.length, 3);
     });
 
     it("should update pool successfully", async () => {
