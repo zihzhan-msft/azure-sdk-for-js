@@ -110,7 +110,9 @@ export interface BatchAccountIdentity {
    * key references will be ARM resource ids in the form:
    * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
    */
-  userAssignedIdentities?: { [propertyName: string]: BatchAccountIdentityUserAssignedIdentitiesValue };
+  userAssignedIdentities?: {
+    [propertyName: string]: BatchAccountIdentityUserAssignedIdentitiesValue;
+  };
 }
 
 /**
@@ -2148,7 +2150,8 @@ export interface CertificateUpdateOptionalParams extends msRest.RequestOptionsBa
 /**
  * Optional Parameters.
  */
-export interface PrivateLinkResourceListByBatchAccountOptionalParams extends msRest.RequestOptionsBase {
+export interface PrivateLinkResourceListByBatchAccountOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The maximum number of items to return in the response.
    */
@@ -2158,7 +2161,8 @@ export interface PrivateLinkResourceListByBatchAccountOptionalParams extends msR
 /**
  * Optional Parameters.
  */
-export interface PrivateEndpointConnectionListByBatchAccountOptionalParams extends msRest.RequestOptionsBase {
+export interface PrivateEndpointConnectionListByBatchAccountOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The maximum number of items to return in the response.
    */
@@ -2179,7 +2183,8 @@ export interface PrivateEndpointConnectionUpdateOptionalParams extends msRest.Re
 /**
  * Optional Parameters.
  */
-export interface PrivateEndpointConnectionBeginUpdateOptionalParams extends msRest.RequestOptionsBase {
+export interface PrivateEndpointConnectionBeginUpdateOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The state (ETag) version of the private endpoint connection to update. This value can be
    * omitted or set to "*" to apply the operation unconditionally.
@@ -2522,7 +2527,7 @@ export interface ListPoolsResult extends Array<Pool> {
  * @readonly
  * @enum {string}
  */
-export type KeySource = 'Microsoft.Batch' | 'Microsoft.KeyVault';
+export type KeySource = "Microsoft.Batch" | "Microsoft.KeyVault";
 
 /**
  * Defines values for PoolAllocationMode.
@@ -2530,7 +2535,7 @@ export type KeySource = 'Microsoft.Batch' | 'Microsoft.KeyVault';
  * @readonly
  * @enum {string}
  */
-export type PoolAllocationMode = 'BatchService' | 'UserSubscription';
+export type PoolAllocationMode = "BatchService" | "UserSubscription";
 
 /**
  * Defines values for PublicNetworkAccessType.
@@ -2538,7 +2543,7 @@ export type PoolAllocationMode = 'BatchService' | 'UserSubscription';
  * @readonly
  * @enum {string}
  */
-export type PublicNetworkAccessType = 'Enabled' | 'Disabled';
+export type PublicNetworkAccessType = "Enabled" | "Disabled";
 
 /**
  * Defines values for ResourceIdentityType.
@@ -2546,7 +2551,7 @@ export type PublicNetworkAccessType = 'Enabled' | 'Disabled';
  * @readonly
  * @enum {string}
  */
-export type ResourceIdentityType = 'SystemAssigned' | 'UserAssigned' | 'None';
+export type ResourceIdentityType = "SystemAssigned" | "UserAssigned" | "None";
 
 /**
  * Defines values for ProvisioningState.
@@ -2554,7 +2559,13 @@ export type ResourceIdentityType = 'SystemAssigned' | 'UserAssigned' | 'None';
  * @readonly
  * @enum {string}
  */
-export type ProvisioningState = 'Invalid' | 'Creating' | 'Deleting' | 'Succeeded' | 'Failed' | 'Cancelled';
+export type ProvisioningState =
+  | "Invalid"
+  | "Creating"
+  | "Deleting"
+  | "Succeeded"
+  | "Failed"
+  | "Cancelled";
 
 /**
  * Defines values for PrivateEndpointConnectionProvisioningState.
@@ -2562,7 +2573,7 @@ export type ProvisioningState = 'Invalid' | 'Creating' | 'Deleting' | 'Succeeded
  * @readonly
  * @enum {string}
  */
-export type PrivateEndpointConnectionProvisioningState = 'Succeeded' | 'Updating' | 'Failed';
+export type PrivateEndpointConnectionProvisioningState = "Succeeded" | "Updating" | "Failed";
 
 /**
  * Defines values for PrivateLinkServiceConnectionStatus.
@@ -2570,7 +2581,11 @@ export type PrivateEndpointConnectionProvisioningState = 'Succeeded' | 'Updating
  * @readonly
  * @enum {string}
  */
-export type PrivateLinkServiceConnectionStatus = 'Approved' | 'Pending' | 'Rejected' | 'Disconnected';
+export type PrivateLinkServiceConnectionStatus =
+  | "Approved"
+  | "Pending"
+  | "Rejected"
+  | "Disconnected";
 
 /**
  * Defines values for AccountKeyType.
@@ -2578,7 +2593,7 @@ export type PrivateLinkServiceConnectionStatus = 'Approved' | 'Pending' | 'Rejec
  * @readonly
  * @enum {string}
  */
-export type AccountKeyType = 'Primary' | 'Secondary';
+export type AccountKeyType = "Primary" | "Secondary";
 
 /**
  * Defines values for PackageState.
@@ -2586,7 +2601,7 @@ export type AccountKeyType = 'Primary' | 'Secondary';
  * @readonly
  * @enum {string}
  */
-export type PackageState = 'Pending' | 'Active';
+export type PackageState = "Pending" | "Active";
 
 /**
  * Defines values for CertificateFormat.
@@ -2594,7 +2609,7 @@ export type PackageState = 'Pending' | 'Active';
  * @readonly
  * @enum {string}
  */
-export type CertificateFormat = 'Pfx' | 'Cer';
+export type CertificateFormat = "Pfx" | "Cer";
 
 /**
  * Defines values for CertificateProvisioningState.
@@ -2602,7 +2617,7 @@ export type CertificateFormat = 'Pfx' | 'Cer';
  * @readonly
  * @enum {string}
  */
-export type CertificateProvisioningState = 'Succeeded' | 'Deleting' | 'Failed';
+export type CertificateProvisioningState = "Succeeded" | "Deleting" | "Failed";
 
 /**
  * Defines values for PoolProvisioningState.
@@ -2610,7 +2625,7 @@ export type CertificateProvisioningState = 'Succeeded' | 'Deleting' | 'Failed';
  * @readonly
  * @enum {string}
  */
-export type PoolProvisioningState = 'Succeeded' | 'Deleting';
+export type PoolProvisioningState = "Succeeded" | "Deleting";
 
 /**
  * Defines values for AllocationState.
@@ -2618,7 +2633,7 @@ export type PoolProvisioningState = 'Succeeded' | 'Deleting';
  * @readonly
  * @enum {string}
  */
-export type AllocationState = 'Steady' | 'Resizing' | 'Stopping';
+export type AllocationState = "Steady" | "Resizing" | "Stopping";
 
 /**
  * Defines values for CachingType.
@@ -2626,7 +2641,7 @@ export type AllocationState = 'Steady' | 'Resizing' | 'Stopping';
  * @readonly
  * @enum {string}
  */
-export type CachingType = 'None' | 'ReadOnly' | 'ReadWrite';
+export type CachingType = "None" | "ReadOnly" | "ReadWrite";
 
 /**
  * Defines values for StorageAccountType.
@@ -2634,7 +2649,7 @@ export type CachingType = 'None' | 'ReadOnly' | 'ReadWrite';
  * @readonly
  * @enum {string}
  */
-export type StorageAccountType = 'Standard_LRS' | 'Premium_LRS';
+export type StorageAccountType = "Standard_LRS" | "Premium_LRS";
 
 /**
  * Defines values for DiskEncryptionTarget.
@@ -2642,7 +2657,7 @@ export type StorageAccountType = 'Standard_LRS' | 'Premium_LRS';
  * @readonly
  * @enum {string}
  */
-export type DiskEncryptionTarget = 'OsDisk' | 'TemporaryDisk';
+export type DiskEncryptionTarget = "OsDisk" | "TemporaryDisk";
 
 /**
  * Defines values for NodePlacementPolicyType.
@@ -2650,7 +2665,7 @@ export type DiskEncryptionTarget = 'OsDisk' | 'TemporaryDisk';
  * @readonly
  * @enum {string}
  */
-export type NodePlacementPolicyType = 'Regional' | 'Zonal';
+export type NodePlacementPolicyType = "Regional" | "Zonal";
 
 /**
  * Defines values for ComputeNodeDeallocationOption.
@@ -2658,7 +2673,11 @@ export type NodePlacementPolicyType = 'Regional' | 'Zonal';
  * @readonly
  * @enum {string}
  */
-export type ComputeNodeDeallocationOption = 'Requeue' | 'Terminate' | 'TaskCompletion' | 'RetainedData';
+export type ComputeNodeDeallocationOption =
+  | "Requeue"
+  | "Terminate"
+  | "TaskCompletion"
+  | "RetainedData";
 
 /**
  * Defines values for InterNodeCommunicationState.
@@ -2666,7 +2685,7 @@ export type ComputeNodeDeallocationOption = 'Requeue' | 'Terminate' | 'TaskCompl
  * @readonly
  * @enum {string}
  */
-export type InterNodeCommunicationState = 'Enabled' | 'Disabled';
+export type InterNodeCommunicationState = "Enabled" | "Disabled";
 
 /**
  * Defines values for InboundEndpointProtocol.
@@ -2674,7 +2693,7 @@ export type InterNodeCommunicationState = 'Enabled' | 'Disabled';
  * @readonly
  * @enum {string}
  */
-export type InboundEndpointProtocol = 'TCP' | 'UDP';
+export type InboundEndpointProtocol = "TCP" | "UDP";
 
 /**
  * Defines values for NetworkSecurityGroupRuleAccess.
@@ -2682,7 +2701,7 @@ export type InboundEndpointProtocol = 'TCP' | 'UDP';
  * @readonly
  * @enum {string}
  */
-export type NetworkSecurityGroupRuleAccess = 'Allow' | 'Deny';
+export type NetworkSecurityGroupRuleAccess = "Allow" | "Deny";
 
 /**
  * Defines values for IPAddressProvisioningType.
@@ -2690,7 +2709,7 @@ export type NetworkSecurityGroupRuleAccess = 'Allow' | 'Deny';
  * @readonly
  * @enum {string}
  */
-export type IPAddressProvisioningType = 'BatchManaged' | 'UserManaged' | 'NoPublicIPAddresses';
+export type IPAddressProvisioningType = "BatchManaged" | "UserManaged" | "NoPublicIPAddresses";
 
 /**
  * Defines values for ComputeNodeFillType.
@@ -2698,7 +2717,7 @@ export type IPAddressProvisioningType = 'BatchManaged' | 'UserManaged' | 'NoPubl
  * @readonly
  * @enum {string}
  */
-export type ComputeNodeFillType = 'Spread' | 'Pack';
+export type ComputeNodeFillType = "Spread" | "Pack";
 
 /**
  * Defines values for ElevationLevel.
@@ -2706,7 +2725,7 @@ export type ComputeNodeFillType = 'Spread' | 'Pack';
  * @readonly
  * @enum {string}
  */
-export type ElevationLevel = 'NonAdmin' | 'Admin';
+export type ElevationLevel = "NonAdmin" | "Admin";
 
 /**
  * Defines values for LoginMode.
@@ -2714,7 +2733,7 @@ export type ElevationLevel = 'NonAdmin' | 'Admin';
  * @readonly
  * @enum {string}
  */
-export type LoginMode = 'Batch' | 'Interactive';
+export type LoginMode = "Batch" | "Interactive";
 
 /**
  * Defines values for AutoUserScope.
@@ -2722,7 +2741,7 @@ export type LoginMode = 'Batch' | 'Interactive';
  * @readonly
  * @enum {string}
  */
-export type AutoUserScope = 'Task' | 'Pool';
+export type AutoUserScope = "Task" | "Pool";
 
 /**
  * Defines values for ContainerWorkingDirectory.
@@ -2730,7 +2749,7 @@ export type AutoUserScope = 'Task' | 'Pool';
  * @readonly
  * @enum {string}
  */
-export type ContainerWorkingDirectory = 'TaskWorkingDirectory' | 'ContainerImageDefault';
+export type ContainerWorkingDirectory = "TaskWorkingDirectory" | "ContainerImageDefault";
 
 /**
  * Defines values for CertificateStoreLocation.
@@ -2738,7 +2757,7 @@ export type ContainerWorkingDirectory = 'TaskWorkingDirectory' | 'ContainerImage
  * @readonly
  * @enum {string}
  */
-export type CertificateStoreLocation = 'CurrentUser' | 'LocalMachine';
+export type CertificateStoreLocation = "CurrentUser" | "LocalMachine";
 
 /**
  * Defines values for CertificateVisibility.
@@ -2746,7 +2765,7 @@ export type CertificateStoreLocation = 'CurrentUser' | 'LocalMachine';
  * @readonly
  * @enum {string}
  */
-export type CertificateVisibility = 'StartTask' | 'Task' | 'RemoteUser';
+export type CertificateVisibility = "StartTask" | "Task" | "RemoteUser";
 
 /**
  * Defines values for PoolIdentityType.
@@ -2754,7 +2773,7 @@ export type CertificateVisibility = 'StartTask' | 'Task' | 'RemoteUser';
  * @readonly
  * @enum {string}
  */
-export type PoolIdentityType = 'UserAssigned' | 'None';
+export type PoolIdentityType = "UserAssigned" | "None";
 
 /**
  * Defines values for NameAvailabilityReason.
@@ -2762,16 +2781,17 @@ export type PoolIdentityType = 'UserAssigned' | 'None';
  * @readonly
  * @enum {string}
  */
-export type NameAvailabilityReason = 'Invalid' | 'AlreadyExists';
+export type NameAvailabilityReason = "Invalid" | "AlreadyExists";
 
 /**
  * Contains response data for the create operation.
  */
-export type BatchAccountCreateResponse = BatchAccount & BatchAccountCreateHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type BatchAccountCreateResponse = BatchAccount &
+  BatchAccountCreateHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2787,7 +2807,7 @@ export type BatchAccountCreateResponse = BatchAccount & BatchAccountCreateHeader
        */
       parsedBody: BatchAccount;
     };
-};
+  };
 
 /**
  * Contains response data for the update operation.
@@ -2797,16 +2817,16 @@ export type BatchAccountUpdateResponse = BatchAccount & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BatchAccount;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: BatchAccount;
+  };
 };
 
 /**
@@ -2817,11 +2837,11 @@ export type BatchAccountDeleteResponse = BatchAccountDeleteHeaders & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: BatchAccountDeleteHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: BatchAccountDeleteHeaders;
+  };
 };
 
 /**
@@ -2832,16 +2852,16 @@ export type BatchAccountGetResponse = BatchAccount & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BatchAccount;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: BatchAccount;
+  };
 };
 
 /**
@@ -2852,16 +2872,16 @@ export type BatchAccountListResponse = BatchAccountListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BatchAccountListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: BatchAccountListResult;
+  };
 };
 
 /**
@@ -2872,16 +2892,16 @@ export type BatchAccountListByResourceGroupResponse = BatchAccountListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BatchAccountListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: BatchAccountListResult;
+  };
 };
 
 /**
@@ -2892,16 +2912,16 @@ export type BatchAccountRegenerateKeyResponse = BatchAccountKeys & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BatchAccountKeys;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: BatchAccountKeys;
+  };
 };
 
 /**
@@ -2912,16 +2932,16 @@ export type BatchAccountGetKeysResponse = BatchAccountKeys & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BatchAccountKeys;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: BatchAccountKeys;
+  };
 };
 
 /**
@@ -2932,16 +2952,16 @@ export type BatchAccountListNextResponse = BatchAccountListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BatchAccountListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: BatchAccountListResult;
+  };
 };
 
 /**
@@ -2952,16 +2972,16 @@ export type BatchAccountListByResourceGroupNextResponse = BatchAccountListResult
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BatchAccountListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: BatchAccountListResult;
+  };
 };
 
 /**
@@ -2972,16 +2992,16 @@ export type ApplicationPackageActivateResponse = ApplicationPackage & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplicationPackage;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplicationPackage;
+  };
 };
 
 /**
@@ -2992,16 +3012,16 @@ export type ApplicationPackageCreateResponse = ApplicationPackage & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplicationPackage;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplicationPackage;
+  };
 };
 
 /**
@@ -3012,16 +3032,16 @@ export type ApplicationPackageGetResponse = ApplicationPackage & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplicationPackage;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplicationPackage;
+  };
 };
 
 /**
@@ -3032,16 +3052,16 @@ export type ApplicationPackageListResponse = ListApplicationPackagesResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ListApplicationPackagesResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ListApplicationPackagesResult;
+  };
 };
 
 /**
@@ -3052,16 +3072,16 @@ export type ApplicationPackageListNextResponse = ListApplicationPackagesResult &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ListApplicationPackagesResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ListApplicationPackagesResult;
+  };
 };
 
 /**
@@ -3072,16 +3092,16 @@ export type ApplicationCreateResponse = Application & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Application;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Application;
+  };
 };
 
 /**
@@ -3092,16 +3112,16 @@ export type ApplicationGetResponse = Application & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Application;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Application;
+  };
 };
 
 /**
@@ -3112,16 +3132,16 @@ export type ApplicationUpdateResponse = Application & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Application;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Application;
+  };
 };
 
 /**
@@ -3132,16 +3152,16 @@ export type ApplicationListResponse = ListApplicationsResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ListApplicationsResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ListApplicationsResult;
+  };
 };
 
 /**
@@ -3152,16 +3172,16 @@ export type ApplicationListNextResponse = ListApplicationsResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ListApplicationsResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ListApplicationsResult;
+  };
 };
 
 /**
@@ -3172,16 +3192,16 @@ export type LocationGetQuotasResponse = BatchLocationQuota & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BatchLocationQuota;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: BatchLocationQuota;
+  };
 };
 
 /**
@@ -3192,16 +3212,16 @@ export type LocationCheckNameAvailabilityResponse = CheckNameAvailabilityResult 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CheckNameAvailabilityResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CheckNameAvailabilityResult;
+  };
 };
 
 /**
@@ -3212,16 +3232,16 @@ export type OperationsListResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -3232,16 +3252,16 @@ export type OperationsListNextResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -3252,26 +3272,27 @@ export type CertificateListByBatchAccountResponse = ListCertificatesResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ListCertificatesResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ListCertificatesResult;
+  };
 };
 
 /**
  * Contains response data for the create operation.
  */
-export type CertificateCreateResponse = Certificate & CertificateCreateHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type CertificateCreateResponse = Certificate &
+  CertificateCreateHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -3287,16 +3308,17 @@ export type CertificateCreateResponse = Certificate & CertificateCreateHeaders &
        */
       parsedBody: Certificate;
     };
-};
+  };
 
 /**
  * Contains response data for the update operation.
  */
-export type CertificateUpdateResponse = Certificate & CertificateUpdateHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type CertificateUpdateResponse = Certificate &
+  CertificateUpdateHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -3312,7 +3334,7 @@ export type CertificateUpdateResponse = Certificate & CertificateUpdateHeaders &
        */
       parsedBody: Certificate;
     };
-};
+  };
 
 /**
  * Contains response data for the deleteMethod operation.
@@ -3322,21 +3344,22 @@ export type CertificateDeleteResponse = CertificateDeleteHeaders & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: CertificateDeleteHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: CertificateDeleteHeaders;
+  };
 };
 
 /**
  * Contains response data for the get operation.
  */
-export type CertificateGetResponse = Certificate & CertificateGetHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type CertificateGetResponse = Certificate &
+  CertificateGetHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -3352,16 +3375,17 @@ export type CertificateGetResponse = Certificate & CertificateGetHeaders & {
        */
       parsedBody: Certificate;
     };
-};
+  };
 
 /**
  * Contains response data for the cancelDeletion operation.
  */
-export type CertificateCancelDeletionResponse = Certificate & CertificateCancelDeletionHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type CertificateCancelDeletionResponse = Certificate &
+  CertificateCancelDeletionHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -3377,7 +3401,7 @@ export type CertificateCancelDeletionResponse = Certificate & CertificateCancelD
        */
       parsedBody: Certificate;
     };
-};
+  };
 
 /**
  * Contains response data for the listByBatchAccountNext operation.
@@ -3387,16 +3411,16 @@ export type CertificateListByBatchAccountNextResponse = ListCertificatesResult &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ListCertificatesResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ListCertificatesResult;
+  };
 };
 
 /**
@@ -3407,16 +3431,16 @@ export type PrivateLinkResourceListByBatchAccountResponse = ListPrivateLinkResou
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ListPrivateLinkResourcesResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ListPrivateLinkResourcesResult;
+  };
 };
 
 /**
@@ -3427,16 +3451,16 @@ export type PrivateLinkResourceGetResponse = PrivateLinkResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateLinkResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateLinkResource;
+  };
 };
 
 /**
@@ -3447,16 +3471,16 @@ export type PrivateLinkResourceListByBatchAccountNextResponse = ListPrivateLinkR
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ListPrivateLinkResourcesResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ListPrivateLinkResourcesResult;
+  };
 };
 
 /**
@@ -3467,16 +3491,16 @@ export type PrivateEndpointConnectionListByBatchAccountResponse = ListPrivateEnd
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ListPrivateEndpointConnectionsResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ListPrivateEndpointConnectionsResult;
+  };
 };
 
 /**
@@ -3487,16 +3511,16 @@ export type PrivateEndpointConnectionGetResponse = PrivateEndpointConnection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateEndpointConnection;
+  };
 };
 
 /**
@@ -3507,16 +3531,16 @@ export type PrivateEndpointConnectionUpdateResponse = PrivateEndpointConnection 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateEndpointConnection;
+  };
 };
 
 /**
@@ -3527,16 +3551,16 @@ export type PrivateEndpointConnectionBeginUpdateResponse = PrivateEndpointConnec
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateEndpointConnection;
+  };
 };
 
 /**
@@ -3547,16 +3571,16 @@ export type PrivateEndpointConnectionListByBatchAccountNextResponse = ListPrivat
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ListPrivateEndpointConnectionsResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ListPrivateEndpointConnectionsResult;
+  };
 };
 
 /**
@@ -3567,26 +3591,27 @@ export type PoolListByBatchAccountResponse = ListPoolsResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ListPoolsResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ListPoolsResult;
+  };
 };
 
 /**
  * Contains response data for the create operation.
  */
-export type PoolCreateResponse = Pool & PoolCreateHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type PoolCreateResponse = Pool &
+  PoolCreateHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -3602,16 +3627,17 @@ export type PoolCreateResponse = Pool & PoolCreateHeaders & {
        */
       parsedBody: Pool;
     };
-};
+  };
 
 /**
  * Contains response data for the update operation.
  */
-export type PoolUpdateResponse = Pool & PoolUpdateHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type PoolUpdateResponse = Pool &
+  PoolUpdateHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -3627,7 +3653,7 @@ export type PoolUpdateResponse = Pool & PoolUpdateHeaders & {
        */
       parsedBody: Pool;
     };
-};
+  };
 
 /**
  * Contains response data for the deleteMethod operation.
@@ -3637,21 +3663,22 @@ export type PoolDeleteResponse = PoolDeleteHeaders & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: PoolDeleteHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: PoolDeleteHeaders;
+  };
 };
 
 /**
  * Contains response data for the get operation.
  */
-export type PoolGetResponse = Pool & PoolGetHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type PoolGetResponse = Pool &
+  PoolGetHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -3667,16 +3694,17 @@ export type PoolGetResponse = Pool & PoolGetHeaders & {
        */
       parsedBody: Pool;
     };
-};
+  };
 
 /**
  * Contains response data for the disableAutoScale operation.
  */
-export type PoolDisableAutoScaleResponse = Pool & PoolDisableAutoScaleHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type PoolDisableAutoScaleResponse = Pool &
+  PoolDisableAutoScaleHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -3692,16 +3720,17 @@ export type PoolDisableAutoScaleResponse = Pool & PoolDisableAutoScaleHeaders & 
        */
       parsedBody: Pool;
     };
-};
+  };
 
 /**
  * Contains response data for the stopResize operation.
  */
-export type PoolStopResizeResponse = Pool & PoolStopResizeHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type PoolStopResizeResponse = Pool &
+  PoolStopResizeHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -3717,7 +3746,7 @@ export type PoolStopResizeResponse = Pool & PoolStopResizeHeaders & {
        */
       parsedBody: Pool;
     };
-};
+  };
 
 /**
  * Contains response data for the listByBatchAccountNext operation.
@@ -3727,14 +3756,14 @@ export type PoolListByBatchAccountNextResponse = ListPoolsResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ListPoolsResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ListPoolsResult;
+  };
 };

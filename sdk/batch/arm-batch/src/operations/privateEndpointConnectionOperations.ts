@@ -34,21 +34,41 @@ export class PrivateEndpointConnectionOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateEndpointConnectionListByBatchAccountResponse>
    */
-  listByBatchAccount(resourceGroupName: string, accountName: string, options?: Models.PrivateEndpointConnectionListByBatchAccountOptionalParams): Promise<Models.PrivateEndpointConnectionListByBatchAccountResponse>;
+  listByBatchAccount(
+    resourceGroupName: string,
+    accountName: string,
+    options?: Models.PrivateEndpointConnectionListByBatchAccountOptionalParams
+  ): Promise<Models.PrivateEndpointConnectionListByBatchAccountResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName The name of the Batch account.
    * @param callback The callback
    */
-  listByBatchAccount(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.ListPrivateEndpointConnectionsResult>): void;
+  listByBatchAccount(
+    resourceGroupName: string,
+    accountName: string,
+    callback: msRest.ServiceCallback<Models.ListPrivateEndpointConnectionsResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName The name of the Batch account.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByBatchAccount(resourceGroupName: string, accountName: string, options: Models.PrivateEndpointConnectionListByBatchAccountOptionalParams, callback: msRest.ServiceCallback<Models.ListPrivateEndpointConnectionsResult>): void;
-  listByBatchAccount(resourceGroupName: string, accountName: string, options?: Models.PrivateEndpointConnectionListByBatchAccountOptionalParams | msRest.ServiceCallback<Models.ListPrivateEndpointConnectionsResult>, callback?: msRest.ServiceCallback<Models.ListPrivateEndpointConnectionsResult>): Promise<Models.PrivateEndpointConnectionListByBatchAccountResponse> {
+  listByBatchAccount(
+    resourceGroupName: string,
+    accountName: string,
+    options: Models.PrivateEndpointConnectionListByBatchAccountOptionalParams,
+    callback: msRest.ServiceCallback<Models.ListPrivateEndpointConnectionsResult>
+  ): void;
+  listByBatchAccount(
+    resourceGroupName: string,
+    accountName: string,
+    options?:
+      | Models.PrivateEndpointConnectionListByBatchAccountOptionalParams
+      | msRest.ServiceCallback<Models.ListPrivateEndpointConnectionsResult>,
+    callback?: msRest.ServiceCallback<Models.ListPrivateEndpointConnectionsResult>
+  ): Promise<Models.PrivateEndpointConnectionListByBatchAccountResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -56,7 +76,8 @@ export class PrivateEndpointConnectionOperations {
         options
       },
       listByBatchAccountOperationSpec,
-      callback) as Promise<Models.PrivateEndpointConnectionListByBatchAccountResponse>;
+      callback
+    ) as Promise<Models.PrivateEndpointConnectionListByBatchAccountResponse>;
   }
 
   /**
@@ -68,7 +89,12 @@ export class PrivateEndpointConnectionOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateEndpointConnectionGetResponse>
    */
-  get(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateEndpointConnectionGetResponse>;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    privateEndpointConnectionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PrivateEndpointConnectionGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName The name of the Batch account.
@@ -76,7 +102,12 @@ export class PrivateEndpointConnectionOperations {
    * within the account.
    * @param callback The callback
    */
-  get(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, callback: msRest.ServiceCallback<Models.PrivateEndpointConnection>): void;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    privateEndpointConnectionName: string,
+    callback: msRest.ServiceCallback<Models.PrivateEndpointConnection>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName The name of the Batch account.
@@ -85,8 +116,20 @@ export class PrivateEndpointConnectionOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateEndpointConnection>): void;
-  get(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateEndpointConnection>, callback?: msRest.ServiceCallback<Models.PrivateEndpointConnection>): Promise<Models.PrivateEndpointConnectionGetResponse> {
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    privateEndpointConnectionName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PrivateEndpointConnection>
+  ): void;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    privateEndpointConnectionName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateEndpointConnection>,
+    callback?: msRest.ServiceCallback<Models.PrivateEndpointConnection>
+  ): Promise<Models.PrivateEndpointConnectionGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -95,7 +138,8 @@ export class PrivateEndpointConnectionOperations {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.PrivateEndpointConnectionGetResponse>;
+      callback
+    ) as Promise<Models.PrivateEndpointConnectionGetResponse>;
   }
 
   /**
@@ -109,9 +153,22 @@ export class PrivateEndpointConnectionOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateEndpointConnectionUpdateResponse>
    */
-  update(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, parameters: Models.PrivateEndpointConnection, options?: Models.PrivateEndpointConnectionUpdateOptionalParams): Promise<Models.PrivateEndpointConnectionUpdateResponse> {
-    return this.beginUpdate(resourceGroupName,accountName,privateEndpointConnectionName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.PrivateEndpointConnectionUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    accountName: string,
+    privateEndpointConnectionName: string,
+    parameters: Models.PrivateEndpointConnection,
+    options?: Models.PrivateEndpointConnectionUpdateOptionalParams
+  ): Promise<Models.PrivateEndpointConnectionUpdateResponse> {
+    return this.beginUpdate(
+      resourceGroupName,
+      accountName,
+      privateEndpointConnectionName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.PrivateEndpointConnectionUpdateResponse
+    >;
   }
 
   /**
@@ -125,7 +182,13 @@ export class PrivateEndpointConnectionOperations {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, parameters: Models.PrivateEndpointConnection, options?: Models.PrivateEndpointConnectionBeginUpdateOptionalParams): Promise<msRestAzure.LROPoller> {
+  beginUpdate(
+    resourceGroupName: string,
+    accountName: string,
+    privateEndpointConnectionName: string,
+    parameters: Models.PrivateEndpointConnection,
+    options?: Models.PrivateEndpointConnectionBeginUpdateOptionalParams
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -135,7 +198,8 @@ export class PrivateEndpointConnectionOperations {
         options
       },
       beginUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -144,26 +208,43 @@ export class PrivateEndpointConnectionOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateEndpointConnectionListByBatchAccountNextResponse>
    */
-  listByBatchAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateEndpointConnectionListByBatchAccountNextResponse>;
+  listByBatchAccountNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PrivateEndpointConnectionListByBatchAccountNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByBatchAccountNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ListPrivateEndpointConnectionsResult>): void;
+  listByBatchAccountNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ListPrivateEndpointConnectionsResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByBatchAccountNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListPrivateEndpointConnectionsResult>): void;
-  listByBatchAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListPrivateEndpointConnectionsResult>, callback?: msRest.ServiceCallback<Models.ListPrivateEndpointConnectionsResult>): Promise<Models.PrivateEndpointConnectionListByBatchAccountNextResponse> {
+  listByBatchAccountNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ListPrivateEndpointConnectionsResult>
+  ): void;
+  listByBatchAccountNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ListPrivateEndpointConnectionsResult>,
+    callback?: msRest.ServiceCallback<Models.ListPrivateEndpointConnectionsResult>
+  ): Promise<Models.PrivateEndpointConnectionListByBatchAccountNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByBatchAccountNextOperationSpec,
-      callback) as Promise<Models.PrivateEndpointConnectionListByBatchAccountNextResponse>;
+      callback
+    ) as Promise<Models.PrivateEndpointConnectionListByBatchAccountNextResponse>;
   }
 }
 
@@ -171,19 +252,11 @@ export class PrivateEndpointConnectionOperations {
 const serializer = new msRest.Serializer(Mappers);
 const listByBatchAccountOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/privateEndpointConnections",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName1
-  ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.maxresults
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/privateEndpointConnections",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.accountName1],
+  queryParameters: [Parameters.apiVersion, Parameters.maxresults],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ListPrivateEndpointConnectionsResult
@@ -197,19 +270,16 @@ const listByBatchAccountOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/privateEndpointConnections/{privateEndpointConnectionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/privateEndpointConnections/{privateEndpointConnectionName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName1,
     Parameters.privateEndpointConnectionName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PrivateEndpointConnection
@@ -223,20 +293,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/privateEndpointConnections/{privateEndpointConnectionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/privateEndpointConnections/{privateEndpointConnectionName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName1,
     Parameters.privateEndpointConnectionName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch, Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -261,12 +327,8 @@ const listByBatchAccountNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ListPrivateEndpointConnectionsResult

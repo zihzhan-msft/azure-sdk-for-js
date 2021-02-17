@@ -6,8 +6,18 @@ import * as dotenv from "dotenv";
 import * as util from "util";
 import * as fs from "fs";
 import { AuthenticationContext } from "adal-node";
-import { TokenCredentials, RestError, ServiceClient, WebResource, HttpHeaders } from "@azure/ms-rest-js";
-import { CertificateCreateOrUpdateParameters, ElevationLevel, PoolAllocationMode } from "../src/models";
+import {
+  TokenCredentials,
+  RestError,
+  ServiceClient,
+  WebResource,
+  HttpHeaders
+} from "@azure/ms-rest-js";
+import {
+  CertificateCreateOrUpdateParameters,
+  ElevationLevel,
+  PoolAllocationMode
+} from "../src/models";
 
 dotenv.config();
 

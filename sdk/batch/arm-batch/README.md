@@ -20,6 +20,7 @@ npm install @azure/arm-batch
 ##### Install @azure/ms-rest-nodeauth
 
 - Please install minimum version of `"@azure/ms-rest-nodeauth": "^3.0.0"`.
+
 ```bash
 npm install @azure/ms-rest-nodeauth@"^3.0.0"
 ```
@@ -30,20 +31,27 @@ npm install @azure/ms-rest-nodeauth@"^3.0.0"
 import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { BatchManagementClient, BatchManagementModels, BatchManagementMappers } from "@azure/arm-batch";
+import {
+  BatchManagementClient,
+  BatchManagementModels,
+  BatchManagementMappers
+} from "@azure/arm-batch";
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
-msRestNodeAuth.interactiveLogin().then((creds) => {
-  const client = new BatchManagementClient(creds, subscriptionId);
-  const resourceGroupName = "testresourceGroupName";
-  const accountName = "testaccountName";
-  client.batchAccount.get(resourceGroupName, accountName).then((result) => {
-    console.log("The result is:");
-    console.log(result);
+msRestNodeAuth
+  .interactiveLogin()
+  .then((creds) => {
+    const client = new BatchManagementClient(creds, subscriptionId);
+    const resourceGroupName = "testresourceGroupName";
+    const accountName = "testaccountName";
+    client.batchAccount.get(resourceGroupName, accountName).then((result) => {
+      console.log("The result is:");
+      console.log(result);
+    });
+  })
+  .catch((err) => {
+    console.error(err);
   });
-}).catch((err) => {
-  console.error(err);
-});
 ```
 
 #### browser - Authentication, client creation and get batchAccount as an example written in JavaScript.
@@ -59,6 +67,7 @@ npm install @azure/ms-rest-browserauth
 See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to Azure in the browser.
 
 - index.html
+
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -82,13 +91,16 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
         const client = new Azure.ArmBatch.BatchManagementClient(res.creds, subscriptionId);
         const resourceGroupName = "testresourceGroupName";
         const accountName = "testaccountName";
-        client.batchAccount.get(resourceGroupName, accountName).then((result) => {
-          console.log("The result is:");
-          console.log(result);
-        }).catch((err) => {
-          console.log("An error occurred:");
-          console.error(err);
-        });
+        client.batchAccount
+          .get(resourceGroupName, accountName)
+          .then((result) => {
+            console.log("The result is:");
+            console.log(result);
+          })
+          .catch((err) => {
+            console.log("An error occurred:");
+            console.error(err);
+          });
       });
     </script>
   </head>
