@@ -246,18 +246,12 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
   },
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnection,
-      headersMapper: Mappers.PrivateEndpointConnectionUpdateHeaders
+      bodyMapper: Mappers.PrivateEndpointConnection
     },
-    202: {
-      headersMapper: Mappers.PrivateEndpointConnectionUpdateHeaders
-    },
-    204: {
-      headersMapper: Mappers.PrivateEndpointConnectionUpdateHeaders
-    },
+    202: {},
+    204: {},
     default: {
-      bodyMapper: Mappers.CloudError,
-      headersMapper: Mappers.PrivateEndpointConnectionUpdateHeaders
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer

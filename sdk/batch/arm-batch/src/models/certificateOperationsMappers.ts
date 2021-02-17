@@ -21,6 +21,9 @@ export {
   BaseResource,
   BatchAccount,
   BatchAccountIdentity,
+  BatchAccountIdentityUserAssignedIdentitiesValue,
+  BatchPoolIdentity,
+  BatchPoolIdentityUserAssignedIdentitiesValue,
   Certificate,
   CertificateCancelDeletionHeaders,
   CertificateCreateHeaders,
@@ -52,6 +55,7 @@ export {
   NetworkConfiguration,
   NetworkSecurityGroupRule,
   NFSMountConfiguration,
+  NodePlacementConfiguration,
   Pool,
   PoolEndpointConfiguration,
   PrivateEndpoint,
@@ -72,6 +76,7 @@ export {
   UserIdentity,
   VirtualMachineConfiguration,
   VirtualMachineFamilyCoreQuota,
+  VMExtension,
   WindowsConfiguration,
   WindowsUserConfiguration
 } from "../models/mappers";

@@ -68,9 +68,35 @@ export class PoolOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.PoolCreateResponse>
    */
-  create(resourceGroupName: string, accountName: string, poolName: string, parameters: Models.Pool, options?: Models.PoolCreateOptionalParams): Promise<Models.PoolCreateResponse> {
-    return this.beginCreate(resourceGroupName,accountName,poolName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.PoolCreateResponse>;
+  create(resourceGroupName: string, accountName: string, poolName: string, parameters: Models.Pool, options?: Models.PoolCreateOptionalParams): Promise<Models.PoolCreateResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group that contains the Batch account.
+   * @param accountName The name of the Batch account.
+   * @param poolName The pool name. This must be unique within the account.
+   * @param parameters Additional parameters for pool creation.
+   * @param callback The callback
+   */
+  create(resourceGroupName: string, accountName: string, poolName: string, parameters: Models.Pool, callback: msRest.ServiceCallback<Models.Pool>): void;
+  /**
+   * @param resourceGroupName The name of the resource group that contains the Batch account.
+   * @param accountName The name of the Batch account.
+   * @param poolName The pool name. This must be unique within the account.
+   * @param parameters Additional parameters for pool creation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  create(resourceGroupName: string, accountName: string, poolName: string, parameters: Models.Pool, options: Models.PoolCreateOptionalParams, callback: msRest.ServiceCallback<Models.Pool>): void;
+  create(resourceGroupName: string, accountName: string, poolName: string, parameters: Models.Pool, options?: Models.PoolCreateOptionalParams | msRest.ServiceCallback<Models.Pool>, callback?: msRest.ServiceCallback<Models.Pool>): Promise<Models.PoolCreateResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        accountName,
+        poolName,
+        parameters,
+        options
+      },
+      createOperationSpec,
+      callback) as Promise<Models.PoolCreateResponse>;
   }
 
   /**
@@ -244,28 +270,6 @@ export class PoolOperations {
   }
 
   /**
-   * Creates a new pool inside the specified account.
-   * @param resourceGroupName The name of the resource group that contains the Batch account.
-   * @param accountName The name of the Batch account.
-   * @param poolName The pool name. This must be unique within the account.
-   * @param parameters Additional parameters for pool creation.
-   * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
-   */
-  beginCreate(resourceGroupName: string, accountName: string, poolName: string, parameters: Models.Pool, options?: Models.PoolBeginCreateOptionalParams): Promise<msRestAzure.LROPoller> {
-    return this.client.sendLRORequest(
-      {
-        resourceGroupName,
-        accountName,
-        poolName,
-        parameters,
-        options
-      },
-      beginCreateOperationSpec,
-      options);
-  }
-
-  /**
    * Deletes the specified pool.
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName The name of the Batch account.
@@ -339,6 +343,43 @@ const listByBatchAccountOperationSpec: msRest.OperationSpec = {
     },
     default: {
       bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const createOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/pools/{poolName}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
+    Parameters.poolName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.ifMatch,
+    Parameters.ifNoneMatch,
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.Pool,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.Pool,
+      headersMapper: Mappers.PoolCreateHeaders
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+      headersMapper: Mappers.PoolCreateHeaders
     }
   },
   serializer
@@ -459,43 +500,6 @@ const stopResizeOperationSpec: msRest.OperationSpec = {
     default: {
       bodyMapper: Mappers.CloudError,
       headersMapper: Mappers.PoolStopResizeHeaders
-    }
-  },
-  serializer
-};
-
-const beginCreateOperationSpec: msRest.OperationSpec = {
-  httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/pools/{poolName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.accountName1,
-    Parameters.poolName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch,
-    Parameters.ifNoneMatch,
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "parameters",
-    mapper: {
-      ...Mappers.Pool,
-      required: true
-    }
-  },
-  responses: {
-    200: {
-      bodyMapper: Mappers.Pool,
-      headersMapper: Mappers.PoolCreateHeaders
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-      headersMapper: Mappers.PoolCreateHeaders
     }
   },
   serializer

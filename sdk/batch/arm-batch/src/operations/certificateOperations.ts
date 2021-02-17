@@ -70,9 +70,39 @@ export class CertificateOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.CertificateCreateResponse>
    */
-  create(resourceGroupName: string, accountName: string, certificateName: string, parameters: Models.CertificateCreateOrUpdateParameters, options?: Models.CertificateCreateOptionalParams): Promise<Models.CertificateCreateResponse> {
-    return this.beginCreate(resourceGroupName,accountName,certificateName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.CertificateCreateResponse>;
+  create(resourceGroupName: string, accountName: string, certificateName: string, parameters: Models.CertificateCreateOrUpdateParameters, options?: Models.CertificateCreateOptionalParams): Promise<Models.CertificateCreateResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group that contains the Batch account.
+   * @param accountName The name of the Batch account.
+   * @param certificateName The identifier for the certificate. This must be made up of algorithm and
+   * thumbprint separated by a dash, and must match the certificate data in the request. For example
+   * SHA1-a3d1c5.
+   * @param parameters Additional parameters for certificate creation.
+   * @param callback The callback
+   */
+  create(resourceGroupName: string, accountName: string, certificateName: string, parameters: Models.CertificateCreateOrUpdateParameters, callback: msRest.ServiceCallback<Models.Certificate>): void;
+  /**
+   * @param resourceGroupName The name of the resource group that contains the Batch account.
+   * @param accountName The name of the Batch account.
+   * @param certificateName The identifier for the certificate. This must be made up of algorithm and
+   * thumbprint separated by a dash, and must match the certificate data in the request. For example
+   * SHA1-a3d1c5.
+   * @param parameters Additional parameters for certificate creation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  create(resourceGroupName: string, accountName: string, certificateName: string, parameters: Models.CertificateCreateOrUpdateParameters, options: Models.CertificateCreateOptionalParams, callback: msRest.ServiceCallback<Models.Certificate>): void;
+  create(resourceGroupName: string, accountName: string, certificateName: string, parameters: Models.CertificateCreateOrUpdateParameters, options?: Models.CertificateCreateOptionalParams | msRest.ServiceCallback<Models.Certificate>, callback?: msRest.ServiceCallback<Models.Certificate>): Promise<Models.CertificateCreateResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        accountName,
+        certificateName,
+        parameters,
+        options
+      },
+      createOperationSpec,
+      callback) as Promise<Models.CertificateCreateResponse>;
   }
 
   /**
@@ -227,30 +257,6 @@ export class CertificateOperations {
   }
 
   /**
-   * Creates a new certificate inside the specified account.
-   * @param resourceGroupName The name of the resource group that contains the Batch account.
-   * @param accountName The name of the Batch account.
-   * @param certificateName The identifier for the certificate. This must be made up of algorithm and
-   * thumbprint separated by a dash, and must match the certificate data in the request. For example
-   * SHA1-a3d1c5.
-   * @param parameters Additional parameters for certificate creation.
-   * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
-   */
-  beginCreate(resourceGroupName: string, accountName: string, certificateName: string, parameters: Models.CertificateCreateOrUpdateParameters, options?: Models.CertificateBeginCreateOptionalParams): Promise<msRestAzure.LROPoller> {
-    return this.client.sendLRORequest(
-      {
-        resourceGroupName,
-        accountName,
-        certificateName,
-        parameters,
-        options
-      },
-      beginCreateOperationSpec,
-      options);
-  }
-
-  /**
    * Deletes the specified certificate.
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName The name of the Batch account.
@@ -326,6 +332,43 @@ const listByBatchAccountOperationSpec: msRest.OperationSpec = {
     },
     default: {
       bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const createOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/certificates/{certificateName}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
+    Parameters.certificateName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.ifMatch,
+    Parameters.ifNoneMatch,
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.CertificateCreateOrUpdateParameters,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.Certificate,
+      headersMapper: Mappers.CertificateCreateHeaders
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+      headersMapper: Mappers.CertificateCreateHeaders
     }
   },
   serializer
@@ -418,43 +461,6 @@ const cancelDeletionOperationSpec: msRest.OperationSpec = {
     default: {
       bodyMapper: Mappers.CloudError,
       headersMapper: Mappers.CertificateCancelDeletionHeaders
-    }
-  },
-  serializer
-};
-
-const beginCreateOperationSpec: msRest.OperationSpec = {
-  httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/certificates/{certificateName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.accountName1,
-    Parameters.certificateName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch,
-    Parameters.ifNoneMatch,
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "parameters",
-    mapper: {
-      ...Mappers.CertificateCreateOrUpdateParameters,
-      required: true
-    }
-  },
-  responses: {
-    200: {
-      bodyMapper: Mappers.Certificate,
-      headersMapper: Mappers.CertificateCreateHeaders
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-      headersMapper: Mappers.CertificateCreateHeaders
     }
   },
   serializer

@@ -6,6 +6,7 @@
   "dependencies": {
     "@azure/ms-rest-azure-js": "^2.0.1",
     "@azure/ms-rest-js": "^2.0.4",
+    "adal-node": "^0.2.1",
     "tslib": "^2.0.0"
   },
   "keywords": [

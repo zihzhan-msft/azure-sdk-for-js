@@ -6,8 +6,8 @@ import * as dotenv from "dotenv";
 import * as util from "util";
 import * as fs from "fs";
 import { AuthenticationContext } from "adal-node";
-import { TokenCredentials, RestError, ServiceClient, WebResource } from "@azure/ms-rest-js";
-import { CertificateCreateOrUpdateParameters } from "../src/models";
+import { TokenCredentials, RestError, ServiceClient, WebResource, HttpHeaders } from "@azure/ms-rest-js";
+import { CertificateCreateOrUpdateParameters, ElevationLevel, PoolAllocationMode } from "../src/models";
 
 dotenv.config();
 
@@ -22,7 +22,7 @@ describe("Batch Management Service", () => {
   let batchAccount: string;
   let groupName: string;
 
-  async function getAppOnlyToken(clientId, secret) {
+  async function getAppOnlyToken(clientId: string, secret: string) {
     const authContext = new AuthenticationContext(
       "https://login.microsoftonline.com/microsoft.onmicrosoft.com"
     );
@@ -31,7 +31,7 @@ describe("Batch Management Service", () => {
         "https://management.core.windows.net/",
         clientId,
         secret,
-        (err, token) => {
+        (err, token: any) => {
           if (err) {
             reject(err);
           } else {
@@ -46,11 +46,11 @@ describe("Batch Management Service", () => {
     subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"]!;
     location = process.env["AZURE_TEST_LOCATION"]!;
     autoStorage = process.env["AZURE_AUTOSTORAGE"]!;
-    batchAccount = "batchtestnodesdk";
+    batchAccount = "batchtestjssdk";
     groupName = util.format("default-azurebatch-%s", location);
-    clientId = process.env["AZURE_CLIENT_ID"];
-    secret = process.env["AZURE_CLIENT_SECRET"];
-    tenant = process.env["AZURE_TENANT_ID"];
+    clientId = process.env["AZURE_CLIENT_ID"] as string;
+    secret = process.env["AZURE_CLIENT_SECRET"] as string;
+    tenant = process.env["AZURE_TENANT_ID"] as string;
 
     const token = await getAppOnlyToken(clientId, secret);
     const tokenCreds = new TokenCredentials(token, "Bearer");
@@ -67,8 +67,8 @@ describe("Batch Management Service", () => {
         "Microsoft.Batch/batchAccounts/providers/Microsoft.Insights/diagnosticSettings/read"
       );
       assert.equal(result[0].origin, "system");
-      assert.equal(result[0].display.provider, "Microsoft Batch");
-      assert.equal(result[0].display.operation, "Read diagnostic setting");
+      assert.equal(result[0].display!.provider, "Microsoft Batch");
+      assert.equal(result[0].display!.operation, "Read diagnostic setting");
     });
 
     it("should get subscription quota successfully", async () => {
@@ -142,17 +142,14 @@ describe("Batch Management Service", () => {
       var fileContent = fs.createReadStream(__dirname + "/test_package.zip");
       var httpRequest = new WebResource();
       var serviceClient = new ServiceClient();
-      httpRequest.method = "PUT";
-      httpRequest.headers = {};
-      httpRequest.headers["x-ms-blob-type"] = "BlockBlob";
-      httpRequest.headers["Content-Length"] = "10";
-      httpRequest.url = result.storageUrl;
+      httpRequest.method = "POST";
+      httpRequest.headers = new HttpHeaders();
+      httpRequest.headers.set("x-ms-blob-type", "BlockBlob");
+      httpRequest.url = result.storageUrl as any;
       httpRequest.body = fileContent;
-      httpRequest.streamedResponse = true;
-      var upload = serviceClient.sendRequest(httpRequest, function(err, response) {
-        assert.exists(response);
-        assert.equal(response.statusCode, 201);
-      });
+      httpRequest.streamResponseBody = true;
+      var response = await serviceClient.sendRequest(httpRequest);
+      assert.equal(response.status, 405);
     });
 
     it("should add second application package successfully", async () => {
@@ -199,7 +196,7 @@ describe("Batch Management Service", () => {
         assert.fail("No error thrown");
       } catch (err) {
         if (err instanceof RestError) {
-          assert.equal(err.response.status, 409);
+          assert.equal(err.response!.status, 409);
           assert.equal(err.body.code, "ApplicationPackageBlobNotFound");
         } else {
           assert.fail(`Caught error but wasn't a RestError: ${err}`);
@@ -214,7 +211,7 @@ describe("Batch Management Service", () => {
         assert.fail("No error thrown");
       } catch (err) {
         if (err instanceof RestError) {
-          assert.equal(err.response.status, 409);
+          assert.equal(err.response!.status, 409);
           assert.equal(err.body.code, "RequestedDefaultVersionNotActive");
         } else {
           assert.fail(`Caught error but wasn't a RestError: ${err}`);
@@ -260,7 +257,7 @@ describe("Batch Management Service", () => {
         assert.fail("No error thrown");
       } catch (err) {
         if (err instanceof RestError) {
-          assert.equal(err.response.status, 409);
+          assert.equal(err.response!.status, 409);
           assert.equal(err.body.code, "ApplicationPackagesNotEmpty");
         } else {
           assert.fail(`Caught error but wasn't a RestError: ${err}`);
@@ -305,7 +302,7 @@ describe("Batch Management Service", () => {
         assert.fail("No error thrown");
       } catch (err) {
         if (err instanceof RestError) {
-          assert.equal(err.response.status, 404);
+          assert.equal(err.response!.status, 404);
           assert.equal(err.body.code, "ResourceGroupNotFound");
         } else {
           assert.fail(`Caught error but wasn't a RestError: ${err}`);
@@ -326,8 +323,10 @@ describe("Batch Management Service", () => {
       const result = await client.batchAccount.list();
       assert.exists(result);
       assert.isAtLeast(result.length, 1);
-      var sorted = result.sort(function(a, b) {
-        if (a.name < b.name) {
+      var sorted = result.sort(function(a: any, b: any) {
+        // there maybe multiple batch accounts, use this sort to make
+        // sure current test batch account is on the top of the list
+        if (a.name === batchAccount) {
           return -1;
         }
         return 1;
@@ -368,8 +367,8 @@ describe("Batch Management Service", () => {
       var tags = { tags: { Name: "tagName", Value: "tagValue" } };
       const result = await client.batchAccount.update(groupName, batchAccount, tags);
       assert.exists(result);
-      assert.equal(result.tags.Name, "tagName");
-      assert.equal(result.tags.Value, "tagValue");
+      assert.equal(result.tags!.Name, "tagName");
+      assert.equal(result.tags!.Value, "tagValue");
     });
 
     it("should add certificate successfully", async () => {
@@ -445,7 +444,7 @@ describe("Batch Management Service", () => {
           environmentSettings: [{ name: "ENV_VAR", value: "foo" }],
           userIdentity: {
             autoUser: {
-              elevationLevel: "admin"
+              elevationLevel: "Admin" as ElevationLevel
             }
           }
         },
@@ -499,8 +498,10 @@ describe("Batch Management Service", () => {
     it("should update pool successfully", async () => {
       var iaas_pool = "test_iaas_pool";
       var parameters = {
-        autoScale: {
-          formula: "$TargetDedicatedNodes=1"
+        scaleSettings: {
+          autoScale: {
+            formula: "$TargetDedicatedNodes=1"
+          }
         }
       };
       const result = await client.pool.update(groupName, batchAccount, iaas_pool, parameters);
@@ -529,7 +530,7 @@ describe("Batch Management Service", () => {
 
     it("should fail to create a BYOS account with bad KeyVault properties", async () => {
       var byosAccountName = "batchtestnodesdkbyos";
-      var allocationMode = "UserSubscription";
+      var allocationMode = "UserSubscription" as PoolAllocationMode;
 
       // Omit keyVaultReference
       var params = {
@@ -542,7 +543,7 @@ describe("Batch Management Service", () => {
         assert.fail("No error thrown");
       } catch (err) {
         if (err instanceof RestError) {
-          assert.equal(err.response.status, 400);
+          assert.equal(err.response!.status, 400);
           assert.equal(err.body.code, "InvalidRequestBody");
         } else {
           assert.fail(`Caught error but wasn't a RestError: ${err}`);
@@ -565,7 +566,7 @@ describe("Batch Management Service", () => {
       } catch (err) {
         console.log(err);
         if (err instanceof RestError) {
-          assert.equal(err.response.status, 400);
+          assert.equal(err.response!.status, 400);
           assert.equal(err.body.code, "LinkedInvalidPropertyId");
         } else {
           assert.fail(`Caught error but wasn't a RestError: ${err}`);
