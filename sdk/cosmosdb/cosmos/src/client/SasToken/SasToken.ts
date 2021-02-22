@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { SasTokenPartitionKeyValueRange } from './SasTokenPartitionKeyValueRange';
-import { DataPlanePermissionScope } from './DataPlanePermissionScope';
-import { ControlPlanePermissionScope } from './ControlPlanePermissionScope';
-import { SasTokenPermissionKind } from './SasTokenPermissionKind';
-import { SasTokenProperties } from './SasTokenProperties';
+import { SasTokenPartitionKeyValueRange } from "./SasTokenPartitionKeyValueRange";
+import { SasTokenPermissionKind } from "./SasTokenPermissionKind";
+import { SasTokenProperties } from "./SasTokenProperties";
 import { hmac } from "../../utils/hmac";
-import { CosmosContainerChildResourceKind } from './CosmosContainerChildResourceKind';
-import { CosmosKeyType } from './CosmosKeyType';
-import { Paths } from './Paths';
+import { CosmosContainerChildResourceKind } from "./CosmosContainerChildResourceKind";
+import { CosmosKeyType } from "./CosmosKeyType";
+import { Paths } from "./Paths";
 import { encodeUTF8, encodeBase64 } from "../../utils/encode";
+import * as PermissionScopes from "./PermissionScope";
 
 export class SasToken implements SasTokenProperties {
   [x: string]: any;
@@ -53,17 +52,15 @@ export class SasToken implements SasTokenProperties {
     this.keyType = 0;
   }
   public create(user: string, databaseName: string, containerName: string): SasTokenProperties {
-    const token = new SasToken()
-    token.setUser(user)
-    token.setDatabaseName(databaseName)
-    token.setContainerName(containerName)
-    return token
+    const token = new SasToken();
+    token.setUser(user);
+    token.setDatabaseName(databaseName);
+    token.setContainerName(containerName);
+    return token;
   }
   public sasTokenValueUsingHMAC(key: string): string;
   public sasTokenValueUsingHMAC(key: string, keyType?: CosmosKeyType) {
-
-    if (((key == null)
-      || key === "")) {
+    if (key == null || key === "") {
       return this.getSasTokenWithHMACSHA256(key);
     } else if (typeof keyType === "object") {
       switch (this.keyType) {
@@ -84,27 +81,26 @@ export class SasToken implements SasTokenProperties {
           break;
       }
       return this.SasTokenWithHMACSHA256(key);
-    }
-    else {
+    } else {
       throw new ErrorEvent("key");
     }
   }
 
   public get DatabaseName(): string {
-    return this.databaseName
+    return this.databaseName;
   }
 
   private generatePayload(): string {
     let resourcePrefixPath: string;
     if (!(this.databaseName === "")) {
-      resourcePrefixPath = `${resourcePrefixPath}${Paths.ROOT}${Paths.DATABASES_PATH_SEGMENT}/${this.databaseName}`
+      resourcePrefixPath = `${resourcePrefixPath}${Paths.ROOT}${Paths.DATABASES_PATH_SEGMENT}/${this.databaseName}`;
     }
 
     if (!(this.containerName === "")) {
       if (this.databaseName === "") {
         throw new ErrorEvent("databaseName");
       }
-      resourcePrefixPath = `${resourcePrefixPath}${Paths.ROOT}${Paths.COLLECTIONS_PATH_SEGMENT}${Paths.ROOT}${this.containerName}`
+      resourcePrefixPath = `${resourcePrefixPath}${Paths.ROOT}${Paths.COLLECTIONS_PATH_SEGMENT}${Paths.ROOT}${this.containerName}`;
     }
 
     if (!(this.resourceName === "")) {
@@ -114,52 +110,52 @@ export class SasToken implements SasTokenProperties {
 
       switch (this.resourceKind) {
         case CosmosContainerChildResourceKind.ITEM:
-          resourcePrefixPath = `${resourcePrefixPath}${Paths.ROOT}${Paths.DOCUMENTS_PATH_SEGMENT}`
+          resourcePrefixPath = `${resourcePrefixPath}${Paths.ROOT}${Paths.DOCUMENTS_PATH_SEGMENT}`;
           break;
         case CosmosContainerChildResourceKind.STORED_PROCEDURE:
-          resourcePrefixPath = `${resourcePrefixPath}${Paths.ROOT}${Paths.STORED_PROCEDURES_PATH_SEGMENT}`
+          resourcePrefixPath = `${resourcePrefixPath}${Paths.ROOT}${Paths.STORED_PROCEDURES_PATH_SEGMENT}`;
           break;
         case CosmosContainerChildResourceKind.USER_DEFINED_FUNCTION:
-          resourcePrefixPath = `${resourcePrefixPath}${Paths.ROOT}${Paths.USER_DEFINED_FUNCTIONS_PATH_SEGMENT}`
+          resourcePrefixPath = `${resourcePrefixPath}${Paths.ROOT}${Paths.USER_DEFINED_FUNCTIONS_PATH_SEGMENT}`;
           break;
         case CosmosContainerChildResourceKind.TRIGGER:
-          resourcePrefixPath = `${resourcePrefixPath}${Paths.ROOT}${Paths.TRIGGERS_PATH_SEGMENT}`
+          resourcePrefixPath = `${resourcePrefixPath}${Paths.ROOT}${Paths.TRIGGERS_PATH_SEGMENT}`;
           break;
         default:
           throw new ErrorEvent("resourceKind");
           break;
       }
 
-      resourcePrefixPath = `${resourcePrefixPath}${Paths.ROOT}${this.resourceName}`
+      resourcePrefixPath = `${resourcePrefixPath}${Paths.ROOT}${this.resourceName}`;
     }
 
-    resourcePrefixPath = `${resourcePrefixPath}${Paths.ROOT}`
+    resourcePrefixPath = `${resourcePrefixPath}${Paths.ROOT}`;
     this.resourcePath = resourcePrefixPath.toString();
-    const partitionRanges: string = ""
-    if (((this.partitionKeyValueRanges != null)
-      && !(this.partitionKeyValueRanges.length > 0))) {
-      if ((this.resourceKind !== CosmosContainerChildResourceKind.ITEM)) {
+    const partitionRanges: string = "";
+    if (this.partitionKeyValueRanges != null && !(this.partitionKeyValueRanges.length > 0)) {
+      if (this.resourceKind !== CosmosContainerChildResourceKind.ITEM) {
         throw new ErrorEvent("partitionKeyValueRanges");
       }
 
       for (const range of this.partitionKeyValueRanges) {
-        this.partitionRanges = `${this.partitionRanges}${range.encode()},`
+        this.partitionRanges = `${this.partitionRanges}${range.encode()},`;
       }
     }
 
-    if ((this.expiryTime == null)) {
-      this.expiryTime = this.startTime
+    if (this.expiryTime == null) {
+      this.expiryTime = this.startTime;
       this.expiryTime.setSeconds(this.startTime.getHours() + 2);
     }
 
-    if ((this.controlPlaneReaderScope === 0)) {
-      this.controlPlaneReaderScope = (this.controlPlaneReaderScope | ControlPlanePermissionScope.SCOPE_CONTAINER_READ.value());
-      this.controlPlaneReaderScope = (this.controlPlaneReaderScope | ControlPlanePermissionScope.SCOPE_CONTAINER_READ_OFFER.value());
+    if (this.controlPlaneReaderScope === 0) {
+      this.controlPlaneReaderScope = this.controlPlaneReaderScope | PermissionScopes.CONTAINER_READ;
+      this.controlPlaneReaderScope =
+        this.controlPlaneReaderScope | PermissionScopes.CONTAINER_READ_OFFER;
     }
 
-    if (((this.dataPlaneReaderScope === 0)
-      && (this.dataPlaneWriterScope === 0))) {
-      this.dataPlaneReaderScope = (this.dataPlaneReaderScope | DataPlanePermissionScope.SCOPE_CONTAINER_READ_ALL_ACCESS.value());
+    if (this.dataPlaneReaderScope === 0 && this.dataPlaneWriterScope === 0) {
+      this.dataPlaneReaderScope =
+        this.dataPlaneReaderScope | PermissionScopes.CONTAINER_READ_ALL_ACCESS;
     }
 
     const payload: string = `${this.user}
@@ -172,14 +168,14 @@ export class SasToken implements SasTokenProperties {
       ${this.controlPlaneReaderScope}
       ${this.controlPlaneWriterScope}
       ${this.dataPlaneReaderScope}
-      ${this.dataPlaneWriterScope}`
+      ${this.dataPlaneWriterScope}`;
 
     return encodeBase64(encodeUTF8(payload));
   }
 
   private SasTokenWithHMACSHA256(key: string): string {
     const authorizationToken = hmac(key, this.generatePayload());
-    const payload = this.generatePayload()
+    const payload = this.generatePayload();
     const token = `${this.AUTH_PREFIX}${authorizationToken}${this.SAS_TOKEN_SEPARATOR}${payload}`;
     return token.toString();
   }
@@ -189,8 +185,7 @@ export class SasToken implements SasTokenProperties {
   }
 
   public setDatabaseName(databaseName: string): SasTokenProperties {
-    if (((databaseName == null)
-      || databaseName === "")) {
+    if (databaseName == null || databaseName === "") {
       throw new ErrorEvent("databaseName");
     }
 
@@ -203,8 +198,7 @@ export class SasToken implements SasTokenProperties {
   }
 
   public setContainerName(containerName: string): SasTokenProperties {
-    if (((containerName == null)
-      || containerName === "")) {
+    if (containerName == null || containerName === "") {
       throw new ErrorEvent("containerName");
     }
 
@@ -220,8 +214,11 @@ export class SasToken implements SasTokenProperties {
     return this.resourceName;
   }
 
-  public setResourceName(kind: CosmosContainerChildResourceKind, resourceName: string): SasTokenProperties {
-    if ((resourceName == null)) {
+  public setResourceName(
+    kind: CosmosContainerChildResourceKind,
+    resourceName: string
+  ): SasTokenProperties {
+    if (resourceName == null) {
       throw new ErrorEvent("resourceName");
     }
 
@@ -235,8 +232,7 @@ export class SasToken implements SasTokenProperties {
   }
 
   public setUser(user: string): SasTokenProperties {
-    if (((user == null)
-      || user === "")) {
+    if (user == null || user === "") {
       throw new ErrorEvent("user");
     }
 
@@ -249,7 +245,7 @@ export class SasToken implements SasTokenProperties {
   }
 
   public setUserTag(userTag: string): SasTokenProperties {
-    if ((userTag == null)) {
+    if (userTag == null) {
       throw new ErrorEvent("userTag");
     }
 
@@ -262,7 +258,7 @@ export class SasToken implements SasTokenProperties {
   }
 
   public setExpiryTime(expiryTime: Date): SasTokenProperties {
-    if ((expiryTime == null)) {
+    if (expiryTime == null) {
       throw new ErrorEvent("expiryTime");
     }
     this.expiryTime.setDate(this.expiryTime.getDate());
@@ -274,7 +270,7 @@ export class SasToken implements SasTokenProperties {
   }
 
   public setStartTime(startTime: Date): SasTokenProperties {
-    if ((startTime == null)) {
+    if (startTime == null) {
       throw new ErrorEvent("startTime");
     }
 
@@ -287,14 +283,12 @@ export class SasToken implements SasTokenProperties {
   }
 
   public setPartitionKeyValueRanges(partitionKeyValues: Iterable<string>): SasTokenProperties {
-    if ((partitionKeyValues != null)) {
+    if (partitionKeyValues != null) {
       this.partitionKeyValueRanges = [];
       for (const partitionKey of partitionKeyValues) {
         this.partitionKeyValueRanges.push(SasTokenPartitionKeyValueRange.create(partitionKey));
-
       }
-    }
-    else {
+    } else {
       this.partitionKeyValueRanges = null;
     }
 
@@ -302,7 +296,7 @@ export class SasToken implements SasTokenProperties {
   }
 
   public addPartitionKeyValue(partitionKeyValue: string): SasTokenProperties {
-    if ((this.partitionKeyValueRanges == null)) {
+    if (this.partitionKeyValueRanges == null) {
       this.partitionKeyValueRanges = [];
     }
     this.partitionKeyValueRanges.push(SasTokenPartitionKeyValueRange.create(partitionKeyValue));
@@ -312,165 +306,198 @@ export class SasToken implements SasTokenProperties {
   public addPermission(permissionKind: SasTokenPermissionKind): SasTokenProperties {
     switch (permissionKind) {
       case SasTokenPermissionKind.CONTAINER_CREATE_ITEMS:
-        this.dataPlaneWriterScope = (this.dataPlaneWriterScope | DataPlanePermissionScope.SCOPE_CONTAINER_CREATE_ITEMS.value());
+        this.dataPlaneWriterScope =
+          this.dataPlaneWriterScope | PermissionScopes.CONTAINER_CREATE_ITEMS;
         break;
         break;
       case SasTokenPermissionKind.CONTAINER_REPLACE_ITEMS:
-        this.dataPlaneWriterScope = (this.dataPlaneWriterScope | DataPlanePermissionScope.SCOPE_CONTAINER_REPLACE_ITEMS.value());
+        this.dataPlaneWriterScope =
+          this.dataPlaneWriterScope | PermissionScopes.CONTAINER_REPLACE_ITEMS;
         break;
         break;
       case SasTokenPermissionKind.CONTAINER_UPSERT_ITEMS:
-        this.dataPlaneWriterScope = (this.dataPlaneWriterScope | DataPlanePermissionScope.SCOPE_CONTAINER_UPSERT_ITEMS.value());
+        this.dataPlaneWriterScope =
+          this.dataPlaneWriterScope | PermissionScopes.CONTAINER_UPSERT_ITEMS;
         break;
         break;
       case SasTokenPermissionKind.CONTAINER_DELETE_ITEMS:
-        this.dataPlaneWriterScope = (this.dataPlaneWriterScope | DataPlanePermissionScope.SCOPE_CONTAINER_DELETE_ITEMS.value());
+        this.dataPlaneWriterScope =
+          this.dataPlaneWriterScope | PermissionScopes.CONTAINER_DELETE_ITEMS;
         break;
         break;
       case SasTokenPermissionKind.CONTAINER_EXECUTE_QUERIES:
-        this.dataPlaneWriterScope = (this.dataPlaneWriterScope | DataPlanePermissionScope.SCOPE_CONTAINER_EXECUTE_QUERIES.value());
+        this.dataPlaneWriterScope =
+          this.dataPlaneWriterScope | PermissionScopes.CONTAINER_EXECUTE_QUERIES;
         break;
         break;
       case SasTokenPermissionKind.CONTAINER_READ_FEEDS:
-        this.dataPlaneReaderScope = (this.dataPlaneReaderScope | DataPlanePermissionScope.SCOPE_CONTAINER_READ_FEEDS.value());
+        this.dataPlaneReaderScope =
+          this.dataPlaneReaderScope | PermissionScopes.CONTAINER_READ_FEEDS;
         break;
         break;
       case SasTokenPermissionKind.CONTAINER_CREATE_STORE_PROCEDURES:
-        this.dataPlaneWriterScope = (this.dataPlaneWriterScope | DataPlanePermissionScope.SCOPE_CONTAINER_CREATE_STORED_PROCEDURES.value());
+        this.dataPlaneWriterScope =
+          this.dataPlaneWriterScope | PermissionScopes.CONTAINER_CREATE_STORED_PROCEDURES;
         break;
         break;
       case SasTokenPermissionKind.CONTAINER_READ_STORE_PROCEDURES:
-        this.dataPlaneReaderScope = (this.dataPlaneReaderScope | DataPlanePermissionScope.SCOPE_CONTAINER_READ_STORED_PROCEDURES.value());
+        this.dataPlaneReaderScope =
+          this.dataPlaneReaderScope | PermissionScopes.CONTAINER_READ_STORED_PROCEDURES;
         break;
         break;
       case SasTokenPermissionKind.CONTAINER_REPLACE_STORE_PROCEDURES:
-        this.dataPlaneWriterScope = (this.dataPlaneWriterScope | DataPlanePermissionScope.SCOPE_CONTAINER_REPLACE_STORED_PROCEDURES.value());
+        this.dataPlaneWriterScope =
+          this.dataPlaneWriterScope | PermissionScopes.CONTAINER_REPLACE_STORED_PROCEDURES;
         break;
         break;
       case SasTokenPermissionKind.CONTAINER_DELETE_STORE_PROCEDURES:
-        this.dataPlaneWriterScope = (this.dataPlaneWriterScope | DataPlanePermissionScope.SCOPE_CONTAINER_DELETE_STORED_PROCEDURES.value());
+        this.dataPlaneWriterScope =
+          this.dataPlaneWriterScope | PermissionScopes.CONTAINER_DELETE_STORED_PROCEDURES;
         break;
         break;
       case SasTokenPermissionKind.CONTAINER_CREATE_TRIGGERS:
-        this.dataPlaneWriterScope = (this.dataPlaneWriterScope | DataPlanePermissionScope.SCOPE_CONTAINER_CREATE_TRIGGERS.value());
+        this.dataPlaneWriterScope =
+          this.dataPlaneWriterScope | PermissionScopes.CONTAINER_CREATE_TRIGGERS;
         break;
         break;
       case SasTokenPermissionKind.CONTAINER_READ_TRIGGERS:
-        this.dataPlaneReaderScope = (this.dataPlaneReaderScope | DataPlanePermissionScope.SCOPE_CONTAINER_READ_TRIGGERS.value());
+        this.dataPlaneReaderScope =
+          this.dataPlaneReaderScope | PermissionScopes.CONTAINER_READ_TRIGGERS;
         break;
         break;
       case SasTokenPermissionKind.CONTAINER_REPLACE_TRIGGERS:
-        this.dataPlaneWriterScope = (this.dataPlaneWriterScope | DataPlanePermissionScope.SCOPE_CONTAINER_REPLACE_TRIGGERS.value());
+        this.dataPlaneWriterScope =
+          this.dataPlaneWriterScope | PermissionScopes.CONTAINER_REPLACE_TRIGGERS;
         break;
         break;
       case SasTokenPermissionKind.CONTAINER_DELETE_TRIGGERS:
-        this.dataPlaneWriterScope = (this.dataPlaneWriterScope | DataPlanePermissionScope.SCOPE_CONTAINER_DELETE_TRIGGERS.value());
+        this.dataPlaneWriterScope =
+          this.dataPlaneWriterScope | PermissionScopes.CONTAINER_DELETE_TRIGGERS;
         break;
         break;
       case SasTokenPermissionKind.CONTAINER_CREATE_USER_DEFINED_FUNCTIONS:
-        this.dataPlaneWriterScope = (this.dataPlaneWriterScope | DataPlanePermissionScope.SCOPE_CONTAINER_CREATE_USER_DEFINED_FUNCTIONS.value());
+        this.dataPlaneWriterScope =
+          this.dataPlaneWriterScope | PermissionScopes.CONTAINER_CREATE_USER_DEFINED_FUNCTIONS;
         break;
         break;
       case SasTokenPermissionKind.CONTAINER_READ_USER_DEFINED_FUNCTIONS:
-        this.dataPlaneReaderScope = (this.dataPlaneReaderScope | DataPlanePermissionScope.SCOPE_CONTAINER_READ_USER_DEFINED_FUNCTIONS.value());
+        this.dataPlaneReaderScope =
+          this.dataPlaneReaderScope | PermissionScopes.CONTAINER_READ_USER_DEFINED_FUNCTIONS;
         break;
         break;
       case SasTokenPermissionKind.CONTAINER_REPLACE_USER_DEFINED_FUNCTIONS:
-        this.dataPlaneWriterScope = (this.dataPlaneWriterScope | DataPlanePermissionScope.SCOPE_CONTAINER_REPLACE_USER_DEFINED_FUNCTIONS.value());
+        this.dataPlaneWriterScope =
+          this.dataPlaneWriterScope | PermissionScopes.CONTAINER_REPLACE_USER_DEFINED_FUNCTIONS;
         break;
         break;
       case SasTokenPermissionKind.CONTAINER_DELETE_USER_DEFINED_FUNCTIONS:
-        this.dataPlaneWriterScope = (this.dataPlaneWriterScope | DataPlanePermissionScope.SCOPE_CONTAINER_DELETE_USER_DEFINED_FUNCTIONS.value());
+        this.dataPlaneWriterScope =
+          this.dataPlaneWriterScope | PermissionScopes.CONTAINER_DELETE_USER_DEFINED_FUNCTIONS;
         break;
         break;
       case SasTokenPermissionKind.CONTAINER_EXECUTE_STORED_PROCEDURES:
-        this.dataPlaneWriterScope = (this.dataPlaneWriterScope | DataPlanePermissionScope.SCOPE_CONTAINER_EXECUTE_STORED_PROCEDURES.value());
+        this.dataPlaneWriterScope =
+          this.dataPlaneWriterScope | PermissionScopes.CONTAINER_EXECUTE_STORED_PROCEDURES;
         break;
         break;
       case SasTokenPermissionKind.CONTAINER_READ_CONFLICTS:
-        this.dataPlaneReaderScope = (this.dataPlaneReaderScope | DataPlanePermissionScope.SCOPE_CONTAINER_READ_CONFLICTS.value());
+        this.dataPlaneReaderScope =
+          this.dataPlaneReaderScope | PermissionScopes.CONTAINER_READ_CONFLICTS;
         break;
         break;
       case SasTokenPermissionKind.CONTAINER_DELETE_CONFLICTS:
-        this.dataPlaneWriterScope = (this.dataPlaneWriterScope | DataPlanePermissionScope.SCOPE_CONTAINER_DELETE_CONFLICTS.value());
+        this.dataPlaneWriterScope =
+          this.dataPlaneWriterScope | PermissionScopes.CONTAINER_DELETE_CONFLICTS;
         break;
         break;
       case SasTokenPermissionKind.CONTAINER_READ_ANY:
-        this.dataPlaneReaderScope = (this.dataPlaneReaderScope | DataPlanePermissionScope.SCOPE_CONTAINER_READ_ALL_ACCESS.value());
+        this.dataPlaneReaderScope =
+          this.dataPlaneReaderScope | PermissionScopes.CONTAINER_READ_ALL_ACCESS;
         break;
         break;
       case SasTokenPermissionKind.CONTAINER_FULL_ACCESS:
-        this.dataPlaneReaderScope = (this.dataPlaneReaderScope | DataPlanePermissionScope.SCOPE_CONTAINER_READ_ALL_ACCESS.value());
-        this.dataPlaneWriterScope = (this.dataPlaneWriterScope | DataPlanePermissionScope.SCOPE_CONTAINER_WRITE_ALL_ACCESS.value());
+        this.dataPlaneReaderScope =
+          this.dataPlaneReaderScope | PermissionScopes.CONTAINER_READ_ALL_ACCESS;
+        this.dataPlaneWriterScope =
+          this.dataPlaneWriterScope | PermissionScopes.CONTAINER_WRITE_ALL_ACCESS;
         break;
         //  Cosmos container item scope.
         break;
       case SasTokenPermissionKind.ITEM_FULL_ACCESS:
-        this.dataPlaneWriterScope = (this.dataPlaneWriterScope | DataPlanePermissionScope.SCOPE_ITEM_WRITE_ALL_ACCESS.value());
+        this.dataPlaneWriterScope =
+          this.dataPlaneWriterScope | PermissionScopes.ITEM_WRITE_ALL_ACCESS;
         this.addPermission(SasTokenPermissionKind.ITEM_READ_ANY);
         break;
         break;
       case SasTokenPermissionKind.ITEM_READ_ANY:
-        this.dataPlaneReaderScope = (this.dataPlaneReaderScope | DataPlanePermissionScope.SCOPE_ITEM_READ_ALL_ACCESS.value());
+        this.dataPlaneReaderScope =
+          this.dataPlaneReaderScope | PermissionScopes.ITEM_READ_ALL_ACCESS;
         break;
         break;
       case SasTokenPermissionKind.ITEM_READ:
-        this.dataPlaneReaderScope = (this.dataPlaneReaderScope | DataPlanePermissionScope.SCOPE_ITEM_READ.value());
+        this.dataPlaneReaderScope = this.dataPlaneReaderScope | PermissionScopes.ITEM_READ;
         break;
         break;
       case SasTokenPermissionKind.ITEM_REPLACE:
-        this.dataPlaneWriterScope = (this.dataPlaneWriterScope | DataPlanePermissionScope.SCOPE_ITEM_REPLACE.value());
+        this.dataPlaneWriterScope = this.dataPlaneWriterScope | PermissionScopes.ITEM_REPLACE;
         break;
         break;
       case SasTokenPermissionKind.ITEM_UPSERT:
-        this.dataPlaneWriterScope = (this.dataPlaneWriterScope | DataPlanePermissionScope.SCOPE_ITEM_UPSERT.value());
+        this.dataPlaneWriterScope = this.dataPlaneWriterScope | PermissionScopes.ITEM_UPSERT;
         break;
         break;
       case SasTokenPermissionKind.ITEM_DELETE:
-        this.dataPlaneWriterScope = (this.dataPlaneWriterScope | DataPlanePermissionScope.SCOPE_ITEM_DELETE.value());
+        this.dataPlaneWriterScope = this.dataPlaneWriterScope | PermissionScopes.ITEM_DELETE;
         break;
         //  Cosmos container store procedure scope.
         break;
       case SasTokenPermissionKind.STORE_PROCEDURE_READ:
-        this.dataPlaneReaderScope = (this.dataPlaneReaderScope | DataPlanePermissionScope.SCOPE_STORED_PROCEDURE_READ.value());
+        this.dataPlaneReaderScope =
+          this.dataPlaneReaderScope | PermissionScopes.STORED_PROCEDURE_READ;
         break;
         break;
       case SasTokenPermissionKind.STORE_PROCEDURE_REPLACE:
-        this.dataPlaneWriterScope = (this.dataPlaneWriterScope | DataPlanePermissionScope.SCOPE_STORED_PROCEDURE_REPLACE.value());
+        this.dataPlaneWriterScope =
+          this.dataPlaneWriterScope | PermissionScopes.STORED_PROCEDURE_REPLACE;
         break;
         break;
       case SasTokenPermissionKind.STORE_PROCEDURE_DELETE:
-        this.dataPlaneWriterScope = (this.dataPlaneWriterScope | DataPlanePermissionScope.SCOPE_STORED_PROCEDURE_DELETE.value());
+        this.dataPlaneWriterScope =
+          this.dataPlaneWriterScope | PermissionScopes.STORED_PROCEDURE_DELETE;
         break;
         break;
       case SasTokenPermissionKind.STORE_PROCEDURE_EXECUTE:
-        this.dataPlaneWriterScope = (this.dataPlaneWriterScope | DataPlanePermissionScope.SCOPE_STORED_PROCEDURE_EXECUTE.value());
+        this.dataPlaneWriterScope =
+          this.dataPlaneWriterScope | PermissionScopes.STORED_PROCEDURE_EXECUTE;
         break;
         //  Cosmos container user defined function scope.
         break;
       case SasTokenPermissionKind.USER_DEFINED_FUNCTION_READ:
-        this.dataPlaneReaderScope = (this.dataPlaneReaderScope | DataPlanePermissionScope.SCOPE_USER_DEFINED_FUNCTION_READ.value());
+        this.dataPlaneReaderScope =
+          this.dataPlaneReaderScope | PermissionScopes.USER_DEFINED_FUNCTION_READ;
         break;
         break;
       case SasTokenPermissionKind.USER_DEFINED_FUNCTION_REPLACE:
-        this.dataPlaneWriterScope = (this.dataPlaneWriterScope | DataPlanePermissionScope.SCOPE_USER_DEFINED_FUNCTION_REPLACE.value());
+        this.dataPlaneWriterScope =
+          this.dataPlaneWriterScope | PermissionScopes.USER_DEFINED_FUNCTION_REPLACE;
         break;
         break;
       case SasTokenPermissionKind.USER_DEFINED_FUNCTION_DELETE:
-        this.dataPlaneWriterScope = (this.dataPlaneWriterScope | DataPlanePermissionScope.SCOPE_USER_DEFINED_FUNCTION_DELETE.value());
+        this.dataPlaneWriterScope =
+          this.dataPlaneWriterScope | PermissionScopes.USER_DEFINED_FUNCTION_DELETE;
         break;
         //  Cosmos container trigger scope.
         break;
       case SasTokenPermissionKind.TRIGGER_READ:
-        this.dataPlaneReaderScope = (this.dataPlaneReaderScope | DataPlanePermissionScope.SCOPE_TRIGGER_READ.value());
+        this.dataPlaneReaderScope = this.dataPlaneReaderScope | PermissionScopes.TRIGGER_READ;
         break;
         break;
       case SasTokenPermissionKind.TRIGGER_REPLACE:
-        this.dataPlaneWriterScope = (this.dataPlaneWriterScope | DataPlanePermissionScope.SCOPE_TRIGGER_REPLACE.value());
+        this.dataPlaneWriterScope = this.dataPlaneWriterScope | PermissionScopes.TRIGGER_REPLACE;
         break;
         break;
       case SasTokenPermissionKind.TRIGGER_DELETE:
-        this.dataPlaneWriterScope = (this.dataPlaneWriterScope | DataPlanePermissionScope.SCOPE_TRIGGER_DELETE.value());
+        this.dataPlaneWriterScope = this.dataPlaneWriterScope | PermissionScopes.TRIGGER_DELETE;
         break;
         break;
       default:
