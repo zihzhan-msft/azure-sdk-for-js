@@ -7,7 +7,7 @@ import { createSpanFunction } from "@azure/core-tracing";
  * Creates a span using the global tracer.
  * @internal
  */
-export const createSpan = createSpanFunction({
+export const createSpan: any = createSpanFunction({
   packagePrefix: "Azure.Compute.Batch", // FIXME: double check this
   namespace: "Microsoft.Compute" // FIXME: double check this
 });

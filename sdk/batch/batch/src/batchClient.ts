@@ -6,17 +6,28 @@ import {
   createPipelineFromOptions,
   InternalPipelineOptions,
   isTokenCredential,
-  bearerTokenAuthenticationPolicy,
-  operationOptionsToRequestOptionsBase
+  bearerTokenAuthenticationPolicy
+  //  operationOptionsToRequestOptionsBase,
+  //  HttpOperationResponse
 } from "@azure/core-http";
 import { TokenCredential, KeyCredential } from "@azure/core-auth";
 import { SDK_VERSION } from "./constants";
 import { GeneratedClient } from "./generated/generatedClient";
 import { logger } from "./logger";
-import {} from "./generated/models";
-import { createSpan } from "./tracing";
-import { CanonicalCode } from "@opentelemetry/api";
+//import * as Models from "./generated/models";
+//import { createSpan } from "./tracing";
+//import { CanonicalCode } from "@opentelemetry/api";
 import { createBatchAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
+import { Account } from "./generated/operations/account";
+import { Application } from "./generated/operations/application";
+import { Job } from "./generated/operations/job";
+import { Certificate } from "./generated/operations/certificate";
+import { File } from "./generated/operations/file";
+import { Task } from "./generated/operations/task";
+import { Pool } from "./generated/operations/pool";
+import { ComputeNode } from "./generated/operations/computeNode";
+import { JobSchedule } from "./generated/operations/jobSchedule";
+import { JobClient } from "./jobClient";
 
 const DEFAULT_BATCH_SCOPE = "https://batch.azure.com/.default"; // FIXME: replace this with the correct one if any
 
@@ -39,6 +50,42 @@ export class BatchClient {
    * A reference to the auto-generated Batch HTTP client.
    */
   private readonly client: GeneratedClient;
+
+  get application(): Application {
+    return this.client.application;
+  }
+
+  get account(): Account {
+    return this.client.account;
+  }
+
+  get certificate(): Certificate {
+    return this.client.certificate;
+  }
+
+  get computeNode(): ComputeNode {
+    return this.client.computeNode;
+  }
+
+  get file(): File {
+    return this.client.file;
+  }
+
+  get job(): Job {
+    return this.client.job;
+  }
+
+  get jobSchedule(): JobSchedule {
+    return this.client.jobSchedule;
+  }
+
+  get pool(): Pool {
+    return this.client.pool;
+  }
+
+  get task(): Task {
+    return this.client.task;
+  }
 
   /**
    * Creates an instance of BatchClient.
@@ -74,8 +121,8 @@ export class BatchClient {
     }
 
     const authPolicy = isTokenCredential(credential)
-      ? bearerTokenAuthenticationPolicy(credential, DEFAULT_BATCH_SCOPE)
-      : createBatchAzureKeyCredentialPolicy(credential);
+      ? bearerTokenAuthenticationPolicy(credential as TokenCredential, DEFAULT_BATCH_SCOPE)
+      : createBatchAzureKeyCredentialPolicy(credential as KeyCredential);
 
     const internalPipelineOptions: InternalPipelineOptions = {
       ...options,
@@ -90,5 +137,9 @@ export class BatchClient {
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
 
     this.client = new GeneratedClient(this.endpointUrl, pipeline);
+  }
+
+  public getJobClient(jobId?: string): JobClient {
+    return new JobClient(this.client, jobId);
   }
 }
