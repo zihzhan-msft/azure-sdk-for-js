@@ -1,7 +1,7 @@
-import {createSpan, handleError} from "./tracing";
-import {ServiceClientOptions} from "@azure/core-http";
-import {PagedAsyncIterableIterator} from "@azure/core-paging";
-import {GeneratedClient} from "./generated";
+import { createSpan, handleError } from "./tracing";
+import { ServiceClientOptions } from "@azure/core-http";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { GeneratedClient } from "./generated";
 import {
   CloudJob,
   JobDeleteOptionalParams,
@@ -21,7 +21,7 @@ import {
   JobTerminateOptionalParams,
   JobTerminateResponse
 } from "./generated/models";
-import {InvalidArgumentError} from "./invalidArgumentError";
+import { InvalidArgumentError } from "./invalidArgumentError";
 
 export interface JobClientOptions extends ServiceClientOptions {}
 
@@ -35,11 +35,11 @@ export class JobClient {
   }
 
   private createClientSpan<T>(methodName: string, options: T | undefined) {
-    return createSpan(`JobClient-${methodName}`, options)
+    return createSpan(`JobClient-${methodName}`, options);
   }
 
   public async delete(options?: JobDeleteOptionalParams): Promise<JobDeleteResponse> {
-    const {span, updatedOptions} = this.createClientSpan("delete", options);
+    const { span, updatedOptions } = this.createClientSpan("delete", options);
     try {
       this.validateJobId();
       return this.client.job.delete(this.jobId!, updatedOptions);
@@ -55,7 +55,7 @@ export class JobClient {
     jobDisableParameter: JobDisableParameter,
     options?: JobDisableOptionalParams
   ): Promise<JobDisableResponse> {
-    const {span, updatedOptions} = this.createClientSpan("disable", options);
+    const { span, updatedOptions } = this.createClientSpan("disable", options);
     try {
       this.validateJobId();
       return this.client.job.disable(this.jobId!, jobDisableParameter, updatedOptions);
@@ -68,7 +68,7 @@ export class JobClient {
   }
 
   public async enable(options?: JobEnableOptionalParams): Promise<JobEnableResponse> {
-    const {span, updatedOptions} = this.createClientSpan("enable", options);
+    const { span, updatedOptions } = this.createClientSpan("enable", options);
     try {
       this.validateJobId();
       return this.client.job.enable(this.jobId!, updatedOptions);
@@ -81,7 +81,7 @@ export class JobClient {
   }
 
   public async get(options?: JobGetOptionalParams): Promise<JobGetResponse> {
-    const {span, updatedOptions} = this.createClientSpan("get", options);
+    const { span, updatedOptions } = this.createClientSpan("get", options);
     try {
       this.validateJobId();
       return this.client.job.get(this.jobId!, updatedOptions);
@@ -94,7 +94,7 @@ export class JobClient {
   }
 
   public list(options?: JobListOptionalParams): PagedAsyncIterableIterator<CloudJob> {
-    const {span, updatedOptions} = this.createClientSpan("list", options);
+    const { span, updatedOptions } = this.createClientSpan("list", options);
     const result = this.client.job.list(updatedOptions);
     span.end();
     return result;
@@ -103,7 +103,10 @@ export class JobClient {
   public listPreparationAndReleaseTaskStatus(
     options?: JobListPreparationAndReleaseTaskStatusOptionalParams
   ): PagedAsyncIterableIterator<JobPreparationAndReleaseTaskExecutionInformation> {
-    const {span, updatedOptions} = this.createClientSpan("listPreparationAndReleaseTaskStatus", options);
+    const { span, updatedOptions } = this.createClientSpan(
+      "listPreparationAndReleaseTaskStatus",
+      options
+    );
     try {
       this.validateJobId();
       return this.client.job.listPreparationAndReleaseTaskStatus(this.jobId!, updatedOptions);
@@ -118,14 +121,14 @@ export class JobClient {
   public async getAllLifetimeStatistics(
     options?: JobGetAllLifetimeStatisticsOptionalParams
   ): Promise<JobGetAllLifetimeStatisticsResponse> {
-    const {span, updatedOptions} = this.createClientSpan("getAllLifetimeStatistics", options);
+    const { span, updatedOptions } = this.createClientSpan("getAllLifetimeStatistics", options);
     const result = this.client.job.getAllLifetimeStatistics(updatedOptions);
     span.end();
     return result;
   }
 
   public async terminate(options?: JobTerminateOptionalParams): Promise<JobTerminateResponse> {
-    const {span, updatedOptions} = this.createClientSpan("terminate", options);
+    const { span, updatedOptions } = this.createClientSpan("terminate", options);
     try {
       this.validateJobId();
       return this.client.job.terminate(this.jobId!, updatedOptions);

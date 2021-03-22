@@ -3,7 +3,7 @@
 
 import { createSpanFunction, OperationTracingOptions } from "@azure/core-tracing";
 import { CanonicalCode, Span } from "@opentelemetry/api";
-import {CanonicalError} from "./canonicalError";
+import { CanonicalError } from "./canonicalError";
 
 /**
  * Creates a span using the global tracer.
@@ -11,10 +11,13 @@ import {CanonicalError} from "./canonicalError";
  */
 export const createSpan: <T extends {
   tracingOptions?: OperationTracingOptions | undefined;
-}>(operationName: string, operationOptions: T | undefined) => {
+}>(
+  operationName: string,
+  operationOptions: T | undefined
+) => {
   span: Span;
   updatedOptions: T;
-}  = createSpanFunction({
+} = createSpanFunction({
   packagePrefix: "Azure.Compute.Batch", // FIXME: double check this
   namespace: "Microsoft.Compute" // FIXME: double check this
 });
@@ -24,5 +27,5 @@ export const handleError = (span: Span, error: Error): void => {
   if (error instanceof CanonicalError) {
     code = error.code;
   }
-  span.setStatus({ code, message: error.message});
-}
+  span.setStatus({ code, message: error.message });
+};
