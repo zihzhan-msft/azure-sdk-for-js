@@ -5,8 +5,8 @@ stages:
     parameters:
       PackageName: "@azure/container-registry"
       ServiceDirectory: containerregistry
-      MatrixFilters:
-        - DependencyVersion=^$
+      # Live tests do not exist yet. Remove the below line when live tests are added.
+      UnsupportedClouds: 'Public,Canary'
       EnvVars:
         AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
         AZURE_TENANT_ID: $(aad-azure-sdk-test-tenant-id)
