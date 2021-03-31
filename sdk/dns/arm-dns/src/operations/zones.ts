@@ -157,6 +157,14 @@ export class Zones {
     ) as Promise<ZonesCreateOrUpdateResponse>;
   }
 
+  async beginDelete(
+    resourceGroupName: string,
+    zoneName: string,
+    options?: ZonesDeleteOptionalParams
+  ): Promise<coreHttp.RestResponse> {
+    return this.delete(resourceGroupName,zoneName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
+  }
   /**
    * Deletes a DNS zone. WARNING: All DNS records in the zone will also be deleted. This operation cannot
    * be undone.
@@ -168,12 +176,13 @@ export class Zones {
     resourceGroupName: string,
     zoneName: string,
     options?: ZonesDeleteOptionalParams
-  ): Promise<LROPoller<coreHttp.RestResponse>> {
+  ): Promise<LROPoller<coreHttp.RestResponse>|coreHttp.RestResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       resourceGroupName,
       zoneName,
       options: this.getOperationOptions(options, "undefined")
     };
+    const polling = options['polling'];
     const sendOperation = (
       args: coreHttp.OperationArguments,
       spec: coreHttp.OperationSpec
@@ -187,12 +196,17 @@ export class Zones {
       operationArguments,
       deleteOperationSpec
     );
-    return new LROPoller({
-      initialOperationArguments: operationArguments,
-      initialOperationSpec: deleteOperationSpec,
-      initialOperationResult,
-      sendOperation
-    });
+    let poller = new LROPoller({
+        initialOperationArguments: operationArguments,
+        initialOperationSpec: deleteOperationSpec,
+        initialOperationResult,
+        sendOperation
+      });
+    if (polling === false) {
+      return poller;
+    }
+    return poller.pollUntilFinished();
+
   }
 
   /**
