@@ -68,11 +68,7 @@ export class Zones {
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options
-      );
+      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       yield result.value || [];
     }
@@ -82,10 +78,7 @@ export class Zones {
     resourceGroupName: string,
     options?: ZonesListByResourceGroupOptionalParams
   ): AsyncIterableIterator<Zone> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options
-    )) {
+    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
@@ -94,9 +87,7 @@ export class Zones {
    * Lists the DNS zones in all resource groups in a subscription.
    * @param options The options parameters.
    */
-  public list(
-    options?: ZonesListOptionalParams
-  ): PagedAsyncIterableIterator<Zone> {
+  public list(options?: ZonesListOptionalParams): PagedAsyncIterableIterator<Zone> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -111,9 +102,7 @@ export class Zones {
     };
   }
 
-  private async *listPagingPage(
-    options?: ZonesListOptionalParams
-  ): AsyncIterableIterator<Zone[]> {
+  private async *listPagingPage(options?: ZonesListOptionalParams): AsyncIterableIterator<Zone[]> {
     let result = await this._list(options);
     yield result.value || [];
     let continuationToken = result.nextLink;
@@ -124,9 +113,7 @@ export class Zones {
     }
   }
 
-  private async *listPagingAll(
-    options?: ZonesListOptionalParams
-  ): AsyncIterableIterator<Zone> {
+  private async *listPagingAll(options?: ZonesListOptionalParams): AsyncIterableIterator<Zone> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
     }
@@ -162,8 +149,9 @@ export class Zones {
     zoneName: string,
     options?: ZonesDeleteOptionalParams
   ): Promise<coreHttp.RestResponse> {
-    return this.delete(resourceGroupName,zoneName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+    return this.delete(resourceGroupName, zoneName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
   /**
    * Deletes a DNS zone. WARNING: All DNS records in the zone will also be deleted. This operation cannot
@@ -176,37 +164,28 @@ export class Zones {
     resourceGroupName: string,
     zoneName: string,
     options?: ZonesDeleteOptionalParams
-  ): Promise<LROPoller<coreHttp.RestResponse>|coreHttp.RestResponse> {
+  ): Promise<LROPoller<coreHttp.RestResponse> | coreHttp.RestResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       resourceGroupName,
       zoneName,
       options: this.getOperationOptions(options, "undefined")
     };
-    const polling = options['polling'];
-    const sendOperation = (
-      args: coreHttp.OperationArguments,
-      spec: coreHttp.OperationSpec
-    ) => {
-      return this.client.sendOperationRequest(args, spec) as Promise<
-        coreHttp.RestResponse
-      >;
+    const polling = options["polling"];
+    const sendOperation = (args: coreHttp.OperationArguments, spec: coreHttp.OperationSpec) => {
+      return this.client.sendOperationRequest(args, spec) as Promise<coreHttp.RestResponse>;
     };
 
-    const initialOperationResult = await sendOperation(
-      operationArguments,
-      deleteOperationSpec
-    );
+    const initialOperationResult = await sendOperation(operationArguments, deleteOperationSpec);
     let poller = new LROPoller({
-        initialOperationArguments: operationArguments,
-        initialOperationSpec: deleteOperationSpec,
-        initialOperationResult,
-        sendOperation
-      });
+      initialOperationArguments: operationArguments,
+      initialOperationSpec: deleteOperationSpec,
+      initialOperationResult,
+      sendOperation
+    });
     if (polling === false) {
       return poller;
     }
     return poller.pollUntilFinished();
-
   }
 
   /**
@@ -225,10 +204,9 @@ export class Zones {
       zoneName,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      getOperationSpec
-    ) as Promise<ZonesGetResponse>;
+    return this.client.sendOperationRequest(operationArguments, getOperationSpec) as Promise<
+      ZonesGetResponse
+    >;
   }
 
   /**
@@ -250,10 +228,9 @@ export class Zones {
       parameters,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      updateOperationSpec
-    ) as Promise<ZonesUpdateResponse>;
+    return this.client.sendOperationRequest(operationArguments, updateOperationSpec) as Promise<
+      ZonesUpdateResponse
+    >;
   }
 
   /**
@@ -283,10 +260,9 @@ export class Zones {
     const operationArguments: coreHttp.OperationArguments = {
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      listOperationSpec
-    ) as Promise<ZonesListResponse>;
+    return this.client.sendOperationRequest(operationArguments, listOperationSpec) as Promise<
+      ZonesListResponse
+    >;
   }
 
   /**
@@ -324,10 +300,9 @@ export class Zones {
       nextLink,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      listNextOperationSpec
-    ) as Promise<ZonesListNextResponse>;
+    return this.client.sendOperationRequest(operationArguments, listNextOperationSpec) as Promise<
+      ZonesListNextResponse
+    >;
   }
 
   private getOperationOptions<TOptions extends coreHttp.OperationOptions>(
@@ -442,11 +417,7 @@ const updateOperationSpec: coreHttp.OperationSpec = {
     Parameters.zoneName,
     Parameters.subscriptionId
   ],
-  headerParameters: [
-    Parameters.contentType,
-    Parameters.accept,
-    Parameters.ifMatch
-  ],
+  headerParameters: [Parameters.contentType, Parameters.accept, Parameters.ifMatch],
   mediaType: "json",
   serializer
 };
@@ -463,11 +434,7 @@ const listByResourceGroupOperationSpec: coreHttp.OperationSpec = {
     }
   },
   queryParameters: [Parameters.apiVersion, Parameters.top],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
+  urlParameters: [Parameters.$host, Parameters.resourceGroupName, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer
 };
@@ -520,11 +487,7 @@ const listNextOperationSpec: coreHttp.OperationSpec = {
     }
   },
   queryParameters: [Parameters.apiVersion, Parameters.top],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer
 };
