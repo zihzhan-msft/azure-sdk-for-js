@@ -227,8 +227,6 @@ stages:
     dependsOn: ${{parameters.DependsOn}}
     jobs:
     - job: PublishPackages
-      # Run Integration job only if SetDevVersion is set to true or ( SetDevVersion is empty and job is a scheduled CI run)
-      # If SetDevVersion is set to false then we should skip integration job even for scheduled runs.
       condition: and(eq(variables['SetDevVersion'], 'true'), eq(variables['System.TeamProject'], 'internal'))
       displayName: Publish package to daily feed
       pool:

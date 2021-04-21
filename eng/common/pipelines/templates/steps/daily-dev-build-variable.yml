@@ -15,10 +15,15 @@ steps:
     displayName: Dump Package properties
     condition: succeeded()
 - pwsh: |
+    Write-Host "Starting state:"
+    Write-Host "  Build.Reason variable is: $(Build.Reason)"
+    Write-Host "  System.TeamProject is: $(System.TeamProject)"
+    Write-Host "  SetDevVersion is: $(SetDevVersion)"
     $setDailyDevBuild = "false"
     if (('$(Build.Reason)' -in 'Schedule', 'IndividualCI') -and ('$(System.TeamProject)' -eq 'internal')) {
       $setDailyDevBuild = "true"
     }
+    Write-Host "Setting daily dev build to: $setDailyDevBuild"
     echo "##vso[task.setvariable variable=SetDevVersion]$setDailyDevBuild"
   displayName: "Setup Versioning Properties"
   condition: eq(variables['SetDevVersion'], '')
