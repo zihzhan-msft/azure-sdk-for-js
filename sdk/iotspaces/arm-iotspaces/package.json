@@ -2,10 +2,8 @@
   "name": "@azure/arm-iotspaces",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for IoTSpacesClient.",
-  "version": "1.0.0-beta.1",
-  "engines": {
-    "node": ">=12.0.0"
-  },
+  "version": "0.1.0",
+  "engines": { "node": ">=12.0.0" },
   "dependencies": {
     "@azure/core-lro": "^1.0.5",
     "@azure/core-paging": "^1.1.1",
@@ -13,13 +11,7 @@
     "@azure/core-rest-pipeline": "1.0.0-beta.2",
     "tslib": "^1.9.3"
   },
-  "keywords": [
-    "node",
-    "azure",
-    "typescript",
-    "browser",
-    "isomorphic"
-  ],
+  "keywords": ["node", "azure", "typescript", "browser", "isomorphic"],
   "license": "MIT",
   "main": "./dist/index.js",
   "module": "./esm/index.js",
@@ -42,9 +34,7 @@
     "type": "git",
     "url": "https://github.com/Azure/azure-sdk-for-js.git"
   },
-  "bugs": {
-    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
-  },
+  "bugs": { "url": "https://github.com/Azure/azure-sdk-for-js/issues" },
   "files": [
     "dist/**/*.js",
     "dist/**/*.js.map",
