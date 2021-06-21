@@ -769,6 +769,11 @@
       "packageName": "@azure-tests/perf-core-rest-pipeline",
       "projectFolder": "sdk/core/perf-tests/core-rest-pipeline",
       "versionPolicyName": "test"
+    },
+    {
+      "packageName": "@azure/arm-iotspaces",
+      "projectFolder": "sdk/iotspaces/arm-iotspaces",
+      "versionPolicyName": "mgmt"
     }
   ]
 }
