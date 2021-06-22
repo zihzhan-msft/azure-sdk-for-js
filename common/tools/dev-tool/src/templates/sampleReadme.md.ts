@@ -61,7 +61,7 @@ function fileLinks(info: SampleReadmeConfiguration) {
         : relativeSourcePath.replace(/\.ts$/, ".js");
       return `[${sampleLinkTag(
         relativeSourcePath
-      )}]: https://github.com/Azure/azure-sdk-for-js/blob/master/${packageSamplesPathFragment}/${sourcePath}`;
+      )}]: https://github.com/Azure/azure-sdk-for-js/blob/main/${packageSamplesPathFragment}/${sourcePath}`;
     })
     .join("\n");
 }
@@ -85,9 +85,8 @@ function resourceLinks(info: SampleReadmeConfiguration) {
 function resources(info: SampleReadmeConfiguration) {
   const resources = Object.entries(info.requiredResources ?? {});
 
-  const header = `You need [an Azure subscription][freesub] ${
-    resources.length > 0 ? "and the following Azure resources " : ""
-  }to run these sample programs${resources.length > 0 ? ":\n\n" : "."}`;
+  const header = `You need [an Azure subscription][freesub] ${resources.length > 0 ? "and the following Azure resources " : ""
+    }to run these sample programs${resources.length > 0 ? ":\n\n" : "."}`;
 
   return (
     header + resources.map(([name]) => `- [${name}][${resourceNameToLinkSlug(name)}]`).join("\n")
@@ -138,9 +137,8 @@ function exampleNodeInvocation(info: SampleReadmeConfiguration) {
     .map((envVar) => `${envVar}="<${envVar.replace(/_/g, " ").toLowerCase()}>"`)
     .join(" ");
 
-  return `${envVars} node ${
-    info.useTypeScript ? "dist/" : ""
-  }${firstModule.relativeSourcePath.replace(/\.ts$/, ".js")}`;
+  return `${envVars} node ${info.useTypeScript ? "dist/" : ""
+    }${firstModule.relativeSourcePath.replace(/\.ts$/, ".js")}`;
 }
 
 /**
@@ -158,8 +156,7 @@ export default (info: SampleReadmeConfiguration) => {
 
 ${info.customSnippets?.header ?? ""}
 
-These sample programs show how to use the ${language} client libraries for ${
-      info.productName
+These sample programs show how to use the ${language} client libraries for ${info.productName
     } in some common scenarios.
 
 ${table(info)}
@@ -169,17 +166,17 @@ ${table(info)}
 The sample programs are compatible with Node.js >=${MIN_SUPPORTED_NODE_VERSION}.
 
 ${(() => {
-  if (info.useTypeScript) {
-    return [
-      "Before running the samples in Node, they must be compiled to JavaScript using the TypeScript compiler. For more information on TypeScript, see the [TypeScript documentation][typescript]. Install the TypeScript compiler using:",
-      "",
-      fence("bash", "npm install -g typescript"),
-      ""
-    ].join("\n");
-  } else {
-    return "";
-  }
-})()}\
+      if (info.useTypeScript) {
+        return [
+          "Before running the samples in Node, they must be compiled to JavaScript using the TypeScript compiler. For more information on TypeScript, see the [TypeScript documentation][typescript]. Install the TypeScript compiler using:",
+          "",
+          fence("bash", "npm install -g typescript"),
+          ""
+        ].join("\n");
+      } else {
+        return "";
+      }
+    })()}\
 ${resources(info)}
 
 ${info.customSnippets?.prerequisites ?? ""}
@@ -196,28 +193,28 @@ ${step("Install the dependencies using `npm`:")}
 
 ${fence("bash", "npm install")}
 ${(() => {
-  if (info.useTypeScript) {
-    return [step("Compile the samples:"), "", fence("bash", "npm run build"), ""].join("\n");
-  } else {
-    return "";
-  }
-})()}
+      if (info.useTypeScript) {
+        return [step("Compile the samples:"), "", fence("bash", "npm run build"), ""].join("\n");
+      } else {
+        return "";
+      }
+    })()}
 ${step(
-  "Edit the file `sample.env`, adding the correct credentials to access the Azure service and run the samples. Then rename the file from `sample.env` to just `.env`. The sample programs will read this file automatically."
-)}
+      "Edit the file `sample.env`, adding the correct credentials to access the Azure service and run the samples. Then rename the file from `sample.env` to just `.env`. The sample programs will read this file automatically."
+    )}
 
 ${step(
-  "Run whichever samples you like (note that some samples may require additional setup, see the table above):"
-)}
+      "Run whichever samples you like (note that some samples may require additional setup, see the table above):"
+    )}
 
 ${fence(
-  "bash",
-  `node ${(() => {
-    const firstSource = filterModules(info)[0].relativeSourcePath;
-    const filePath = info.useTypeScript ? "dist/" : "";
-    return filePath + firstSource.replace(/\.ts$/, ".js");
-  })()}`
-)}
+      "bash",
+      `node ${(() => {
+        const firstSource = filterModules(info)[0].relativeSourcePath;
+        const filePath = info.useTypeScript ? "dist/" : "";
+        return filePath + firstSource.replace(/\.ts$/, ".js");
+      })()}`
+    )}
 
 Alternatively, run a single sample with the correct environment variables set (setting up the \`.env\` file is not required if you do this), for example (cross-platform):
 
@@ -233,7 +230,7 @@ ${fileLinks(info)}
 [apiref]: ${info.apiRefLink ?? `https://docs.microsoft.com/javascript/api/@azure/${info.baseName}`}
 [freesub]: https://azure.microsoft.com/free/
 ${resourceLinks(info)}
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/${info.projectRepoPath}/README.md
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/${info.projectRepoPath}/README.md
 ${info.useTypeScript ? "[typescript]: https://www.typescriptlang.org/docs/home.html\n" : ""}\
 `,
     {

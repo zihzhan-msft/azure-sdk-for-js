@@ -81,12 +81,12 @@ function createPackageJson(info: SampleGenerationInfo, outputKind: OutputKind): 
     },
     ...(outputKind === OutputKind.TypeScript
       ? {
-          // We only include these in TypeScript
-          scripts: {
-            build: "tsc",
-            prebuild: "rimraf dist/"
-          }
+        // We only include these in TypeScript
+        scripts: {
+          build: "tsc",
+          prebuild: "rimraf dist/"
         }
+      }
       : {}),
     repository: {
       type: "git",
@@ -99,7 +99,7 @@ function createPackageJson(info: SampleGenerationInfo, outputKind: OutputKind): 
     bugs: {
       url: "https://github.com/Azure/azure-sdk-for-js/issues"
     },
-    homepage: `https://github.com/Azure/azure-sdk-for-js/tree/master/${info.projectRepoPath}`,
+    homepage: `https://github.com/Azure/azure-sdk-for-js/tree/main/${info.projectRepoPath}`,
     ...info.computeSampleDependencies(outputKind)
   };
 }
@@ -392,13 +392,13 @@ async function makeSampleGenerationInfo(
         }, defaultDependencies),
         ...(outputKind === OutputKind.TypeScript
           ? {
-              // In TypeScript samples, we include TypeScript and `rimraf`, because they're used
-              // in the package scripts.
-              devDependencies: {
-                typescript: devToolPackageJson.dependencies.typescript,
-                rimraf: "latest"
-              }
+            // In TypeScript samples, we include TypeScript and `rimraf`, because they're used
+            // in the package scripts.
+            devDependencies: {
+              typescript: devToolPackageJson.dependencies.typescript,
+              rimraf: "latest"
             }
+          }
           : {})
       };
     }
@@ -416,11 +416,11 @@ function createReadme(outputKind: OutputKind, info: SampleGenerationInfo): strin
     frontmatter: info.disableDocsMs
       ? undefined
       : {
-          page_type: "sample",
-          languages: [fullOutputKind],
-          products: info.productSlugs,
-          urlFragment: `${info.baseName}-${fullOutputKind}`
-        },
+        page_type: "sample",
+        languages: [fullOutputKind],
+        products: info.productSlugs,
+        urlFragment: `${info.baseName}-${fullOutputKind}`
+      },
     publicationDirectory: PUBLIC_SAMPLES_BASE + "/" + info.topLevelDirectory,
     useTypeScript: outputKind === OutputKind.TypeScript,
     ...info,

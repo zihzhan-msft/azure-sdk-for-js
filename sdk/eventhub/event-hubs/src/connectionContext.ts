@@ -142,18 +142,17 @@ type ConnectionContextMethods = Omit<
 export namespace ConnectionContext {
   /**
    * The user agent string for the EventHubs client.
-   * See guideline at https://github.com/Azure/azure-sdk/blob/master/docs/design/Telemetry.mdk
+   * See guideline at https://github.com/Azure/azure-sdk/blob/main/docs/design/Telemetry.mdk
    */
-  const userAgent: string = `azsdk-js-azureeventhubs/${
-    packageJsonInfo.version
-  } (${getRuntimeInfo()})`;
+  const userAgent: string = `azsdk-js-azureeventhubs/${packageJsonInfo.version
+    } (${getRuntimeInfo()})`;
 
   export function getUserAgent(options: ConnectionContextOptions): string {
     const finalUserAgent = options.userAgent ? `${userAgent},${options.userAgent}` : userAgent;
     if (finalUserAgent.length > Constants.maxUserAgentLength) {
       throw new Error(
         `The user-agent string cannot be more than ${Constants.maxUserAgentLength} characters in length.` +
-          `The given user-agent string is: ${finalUserAgent} with length: ${finalUserAgent.length}`
+        `The given user-agent string is: ${finalUserAgent} with length: ${finalUserAgent.length}`
       );
     }
     return finalUserAgent;
@@ -219,8 +218,8 @@ export namespace ConnectionContext {
         return new Promise((resolve) => {
           logger.verbose(
             `[${this.connectionId}] Attempting to reinitialize connection` +
-              ` but the connection is in the process of closing.` +
-              ` Waiting for the disconnect event before continuing.`
+            ` but the connection is in the process of closing.` +
+            ` Waiting for the disconnect event before continuing.`
           );
           this.connection.once(ConnectionEvents.disconnected, resolve);
         });
@@ -494,7 +493,7 @@ export function createConnectionContext(
     ) {
       throw new TypeError(
         `Either provide "eventHubName" or the "connectionString": "${hostOrConnectionString}", ` +
-          `must contain "EntityPath=<your-event-hub-name>".`
+        `must contain "EntityPath=<your-event-hub-name>".`
       );
     }
     if (
@@ -505,7 +504,7 @@ export function createConnectionContext(
     ) {
       throw new TypeError(
         `The entity path "${parsedCS.eventHubName}" in connectionString: "${hostOrConnectionString}" ` +
-          `doesn't match with eventHubName: "${eventHubNameOrOptions}".`
+        `doesn't match with eventHubName: "${eventHubNameOrOptions}".`
       );
     }
     connectionString = hostOrConnectionString;

@@ -26,7 +26,7 @@ package-version: 1.0.0
 
 ## Customizations for Track 2 Generator
 
-See the [AutoRest samples](https://github.com/Azure/autorest/tree/master/Samples/3b-custom-transformations)
+See the [AutoRest samples](https://github.com/Azure/autorest/tree/main/Samples/3b-custom-transformations)
 for more about how we're customizing things.
 
 ### Metric output type - remvoing `metric` prefix from property names and add description

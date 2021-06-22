@@ -230,7 +230,7 @@ export async function createIndex(client: SearchIndexClient, name: string): Prom
 
 // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
 export async function populateIndex(client: SearchClient<Hotel>): Promise<void> {
-  // test data from https://github.com/Azure/azure-sdk-for-net/blob/master/sdk/search/Azure.Search.Documents/tests/Utilities/SearchResources.Data.cs
+  // test data from https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/search/Azure.Search.Documents/tests/Utilities/SearchResources.Data.cs
   const testDocuments: Hotel[] = [
     {
       hotelId: "1",

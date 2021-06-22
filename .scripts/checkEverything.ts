@@ -19,7 +19,7 @@ if (!headReference) {
 
 let baseReference: string | undefined = getArgument("base-reference", { environmentVariableName: "baseReference" });
 if (!baseReference) {
-  baseReference = "master";
+  baseReference = "main";
   logger.logInfo(`No base-reference argument specified on command line or in environment variables. Defaulting to "${baseReference}".`);
 }
 

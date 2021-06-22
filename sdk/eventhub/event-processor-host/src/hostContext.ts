@@ -118,7 +118,7 @@ export namespace HostContext {
     if (duration > maxLeaseDurationInSeconds || duration < minLeaseDurationInSeconds) {
       throw new Error(
         `Lease duration needs to be between ${minLeaseDurationInSeconds} ` +
-          `seconds and ${maxLeaseDurationInSeconds} seconds. The given value is: ${duration} seconds.`
+        `seconds and ${maxLeaseDurationInSeconds} seconds. The given value is: ${duration} seconds.`
       );
     }
   }
@@ -127,7 +127,7 @@ export namespace HostContext {
     if (!name || name.match(/^[a-z0-9](([a-z0-9\-[^\-])){1,61}[a-z0-9]$/gi) === null) {
       throw new Error(
         `Azure Storage lease container name "${name}" is invalid. Please check ` +
-          `naming conventions at https://msdn.microsoft.com/en-us/library/azure/dd135715.aspx`
+        `naming conventions at https://msdn.microsoft.com/en-us/library/azure/dd135715.aspx`
       );
     }
   }
@@ -143,13 +143,13 @@ export namespace HostContext {
       if (checkpointManager || leaseManager) {
         throw new Error(
           "Either provide ('checkpointManager' and 'leaseManager') or " +
-            "provide 'storageConnectionString'."
+          "provide 'storageConnectionString'."
         );
       }
     } else if (!(checkpointManager && leaseManager)) {
       throw new Error(
         "Either provide ('checkpointManager' and 'leaseManager') or " +
-          "provide 'storageConnectionString'."
+        "provide 'storageConnectionString'."
       );
     }
   }
@@ -331,11 +331,10 @@ export namespace HostContext {
 
   /**
    * @property {string} userAgent The user agent string for the EventHubs client.
-   * See guideline at https://github.com/Azure/azure-sdk/blob/master/docs/design/Telemetry.mdk
+   * See guideline at https://github.com/Azure/azure-sdk/blob/main/docs/design/Telemetry.mdk
    */
-  const userAgent: string = `azsdk-js-azureeventprocessorhost/${
-    packageInfo.version
-  } (NODE-VERSION ${process.version}; ${os.type()} ${os.release()})`;
+  const userAgent: string = `azsdk-js-azureeventprocessorhost/${packageInfo.version
+    } (NODE-VERSION ${process.version}; ${os.type()} ${os.release()})`;
 
   /**
    * @hidden

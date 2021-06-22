@@ -6,7 +6,7 @@ Versioning tools make updating package versions easier. These tools target packa
 
 ### increment.js
 
-Increment the version number after a release according to [version policies](https://github.com/Azure/azure-sdk/blob/master/docs/policies/releases.md#incrementing-after-release). Uses the current version in package.json to determine the next version.
+Increment the version number after a release according to [version policies](https://github.com/Azure/azure-sdk/blob/main/docs/policies/releases.md#incrementing-after-release). Uses the current version in package.json to determine the next version.
 
 ```bash
 node increment.js --artifact-name azure-tempate

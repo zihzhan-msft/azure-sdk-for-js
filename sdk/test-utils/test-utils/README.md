@@ -11,8 +11,8 @@ We're about to go through how to set up your project to use the `@azure/test-uti
 This document assumes familiarity with [git](https://git-scm.com) and [rush](https://rushjs.io).
 You can read more about how we use rush in the following links:
 
-- Rush used for [Project Orchestration](https://github.com/sadasant/azure-sdk-for-js/blob/master/CONTRIBUTING.md#project-orchestration).
-- [Rush for NPM users](https://github.com/sadasant/azure-sdk-for-js/blob/master/CONTRIBUTING.md#rush-for-npm-users).
+- Rush used for [Project Orchestration](https://github.com/azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md#project-orchestration).
+- [Rush for NPM users](https://github.com/azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md#rush-for-npm-users).
 
 Keep in mind that `@azure/test-utils` is not a published package. It is only intended
 to be used by the libraries in the `azure-sdk-for-js` repository.
@@ -245,10 +245,10 @@ handle it as soon as we find the time.
 
 ## Next steps
 
-Check out the [source folder](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/test-utils/test-utils/src/) and the [test folder](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/test-utils/test-utils/test/).
+Check out the [source folder](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/test-utils/src/) and the [test folder](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/test-utils/test/).
 
 ## Contributing
 
-If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md) to learn more about how to build and test the code.
+If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Ftest-utils%2Fmulti-version%2FREADME.png)
