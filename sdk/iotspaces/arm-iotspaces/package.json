@@ -57,7 +57,9 @@
     "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js",
     "prepack": "npm install && npm run build",
     "pack": "npm pack 2>&1",
-    "extract-api": "api-extractor run --local"
+    "extract-api": "api-extractor run --local",
+    "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix",
+    "lint": "eslint package.json api-extractor.json src test --ext .ts -f html -o arm-iotspaces-lintReport.html || exit 0"
   },
   "sideEffects": false,
   "autoPublish": true
