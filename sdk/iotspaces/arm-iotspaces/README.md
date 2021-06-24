@@ -4,8 +4,10 @@ This package contains an isomorphic SDK (runs both in Node.js and in browsers) f
 
 Use this API to manage the IoTSpaces service instances in your Azure subscription.
 
+[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/iotspaces/arm-iotspaces) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-iotspaces) |
 [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-iotspaces) |
+[Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/iotspaces/arm-iotspaces/samples)
 
 ## Getting started
 
@@ -67,6 +69,9 @@ setLogLevel("info");
 
 For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/logger).
 
+## Next steps
+
+Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/iotspaces/arm-iotspaces/samples) directory for detailed examples on how to use this library.
 
 ## Contributing
 
@@ -76,6 +81,7 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 - [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
 
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fiotspaces%2Farm-iotspaces%2FREADME.png)
 
 [azure_cli]: https://docs.microsoft.com/cli/azure
 [azure_sub]: https://azure.microsoft.com/free/
