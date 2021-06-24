@@ -60,7 +60,8 @@
     "extract-api": "api-extractor run --local",
     "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix",
     "lint": "eslint package.json api-extractor.json src test --ext .ts -f html -o arm-iotspaces-lintReport.html || exit 0",
-    "format": "echo skipped"
+    "format": "echo skipped",
+    "check-format": "echo skipped"
   },
   "sideEffects": false,
   "autoPublish": true
