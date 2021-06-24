@@ -7,7 +7,6 @@ Use this API to manage the IoTSpaces service instances in your Azure subscriptio
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/iotspaces/arm-iotspaces) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-iotspaces) |
 [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-iotspaces) |
-[Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/iotspaces/arm-iotspaces/samples)
 
 ## Getting started
 
