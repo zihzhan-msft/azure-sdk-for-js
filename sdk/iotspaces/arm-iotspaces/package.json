@@ -63,7 +63,8 @@
     "format": "echo skipped",
     "check-format": "echo skipped",
     "build:test": "echo skipped",
-    "build:samples": "echo skipped"
+    "build:samples": "echo skipped",
+    "unit-test:node": "echo skipped"
   },
   "sideEffects": false,
   "autoPublish": true
