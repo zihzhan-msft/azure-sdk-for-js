@@ -89,7 +89,7 @@ steps:
 
 # In the case of a test pipeline revert the commit so that the effects of the
 # pipeline can be observed without impacting production.
-- ${{ if eq(paramters.TestPipeline, 'true') }}:
+- ${{ if eq(parameters.TestPipeline, 'true') }}:
   - pwsh: git revert HEAD --no-commit
     displayName: Test Pipeline - Revert commit
 
