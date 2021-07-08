@@ -26,6 +26,9 @@ parameters:
     type: object
     default:
       - '**'
+  - name: TestPipeline
+    type: boolean
+    default: false
 
 steps:
 - template: /eng/common/pipelines/templates/steps/enable-long-path-support.yml
@@ -83,6 +86,12 @@ steps:
       -Language '${{parameters.Language}}' `
       -RepoId '${{ parameters.RepoId }}'
   displayName: Apply Documentation Updates
+
+# In the case of a test pipeline revert the commit so that the effects of the
+# pipeline can be observed without impacting production.
+- ${{ if eq(paramters.TestPipeline, 'true') }}:
+  - pwsh: git revert HEAD --no-commit
+    displayName: Test Pipeline - Revert commit
 
 - template: /eng/common/pipelines/templates/steps/git-push-changes.yml
   parameters:

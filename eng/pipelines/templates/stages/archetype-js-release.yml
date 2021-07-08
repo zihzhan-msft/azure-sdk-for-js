@@ -133,6 +133,7 @@ stages:
                           SparseCheckoutPaths:
                             - docs-ref-services/
                             - metadata/
+                          TestPipeline: ${{ parameters.TestPipeline}}
 
           - ${{if ne(artifact.skipPublishDocGithubIo, 'true')}}:
             - deployment: PublishDocsGitHubIO
