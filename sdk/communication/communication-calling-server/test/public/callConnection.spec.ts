@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { env, record, Recorder, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
+import { env, isPlaybackMode, record, Recorder, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
 import { CallingServerClient, CreateCallConnectionOptions, PlayAudioOptions } from "../../src";
 import { TestUtils } from "./utils/testUtils";
 import { Context } from "mocha";
@@ -27,6 +27,12 @@ const environmentSetup: RecorderEnvironmentSetup = {
 
 describe("Call Connection Live Test", function() {
   describe("Call Automation Operations", function() {
+    before(async function(this: Context) {
+      if (!isPlaybackMode()) {
+        this.skip();
+      }
+    });
+
     let recorder: Recorder;
     let connectionString: string;
 
